@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.DS_Store
+.env
+paper/data/.cache/
+paper/figures/*
+paper/tables/*
+!paper/figures/.gitkeep
+!paper/tables/.gitkeep

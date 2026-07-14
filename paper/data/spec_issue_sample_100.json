@@ -1,0 +1,702 @@
+[
+  {
+    "id": "cbb-nccu-umes-2025-02-22",
+    "platform": "polymarket",
+    "question": "North Carolina Central vs. MD Eastern Shore",
+    "volume": 29.949672,
+    "rationale": "The market settled to 'Unknown' due to the game being canceled, indicating that the contract was too broken to resolve properly. The presence of an early return settlement suggests that the resolution criteria were not adequately defined for this scenario."
+  },
+  {
+    "id": "will-the-price-of-xrp-be-between-2pt82-and-2pt85-on-september-24-at-8am-et",
+    "platform": "polymarket",
+    "question": "Will the price of XRP be between $2.82 and $2.85 on September 24 at 8AM ET?",
+    "volume": null,
+    "rationale": "The market settled to 'Unknown' due to an early return, indicating that the contract was too broken to resolve properly. The ambiguity in the resolution criteria regarding how to handle prices that fall exactly between the specified range likely contributed to the dispute."
+  },
+  {
+    "id": "f1-las-vegas-grand-prix-practice-3-fastest-lap-franco-colapinto-2025-11-21",
+    "platform": "polymarket",
+    "question": "Will Franco Colapinto achieve the fastest lap in Practice 3 at the 2025 F1 Las Vegas Grand Prix?",
+    "volume": 77.352,
+    "rationale": "The market settled to 'Unknown' due to the inability to resolve the outcome, indicating a flaw in the contract's specifications. The ambiguity in the resolution criteria regarding the cancellation or rescheduling of the event likely contributed to the dispute, as it led to an unresolvable condition."
+  },
+  {
+    "id": "ethereum-above-3400-on-june-21",
+    "platform": "polymarket",
+    "question": "Ethereum above $3,400 on June 21?",
+    "volume": null,
+    "rationale": "The market settled to 'Unknown' indicating that it was too broken to resolve, likely due to issues with the resolution criteria or data source. The early return settlement suggests that the contract could not be resolved as intended, which points to a specification issue."
+  },
+  {
+    "id": "will-maria-sakkari-win-the-2025-wta-cincinnati",
+    "platform": "polymarket",
+    "question": "Will Maria Sakkari win the 2025 WTA Cincinnati?",
+    "volume": 175.0,
+    "rationale": "The market settled to 'Unknown' indicating that it was too broken to resolve, which suggests a flaw in the contract's specification. The ambiguity in the resolution criteria likely contributed to the dispute flipping the outcome."
+  },
+  {
+    "id": "will-iphone-17-cost-1500-or-more",
+    "platform": "polymarket",
+    "question": "Will iPhone 17 cost $1,500 or more?",
+    "volume": null,
+    "rationale": "The market settled to 'Unknown' indicating that it was too broken to resolve, likely due to ambiguous resolution criteria regarding the iPhone 17's pricing and release. The dispute flipped the outcome, suggesting that the original contract lacked clarity, which led to the inability to determine a definitive resolution."
+  },
+  {
+    "id": "will-the-price-of-xrp-be-between-3pt12-and-3pt15-on-september-14-at-12pm-et",
+    "platform": "polymarket",
+    "question": "Will the price of XRP be between $3.12 and $3.15 on September 14 at 12PM ET?",
+    "volume": null,
+    "rationale": "The market settled to 'Unknown' due to an early return, indicating that the contract was too broken to resolve. The ambiguity in the resolution criteria regarding how to handle prices that fall exactly between the specified range likely contributed to the dispute."
+  },
+  {
+    "id": "will-the-price-of-xrp-be-between-2pt97-and-3-on-september-24-at-8am-et",
+    "platform": "polymarket",
+    "question": "Will the price of XRP be between $2.97 and $3.00 on September 24 at 8AM ET?",
+    "volume": 133.0,
+    "rationale": "The market settled to 'Unknown' due to an early return, indicating that the contract was too broken to resolve. This suggests there were unresolvable conditions or ambiguities in the contract, leading to the dispute and the eventual inability to determine a clear outcome."
+  },
+  {
+    "id": "will-the-price-of-solana-be-between-216-and-218-on-september-24-at-8am-et",
+    "platform": "polymarket",
+    "question": "Will the price of Solana be between $216 and $218 on September 24 at 8AM ET?",
+    "volume": 133.0,
+    "rationale": "The market settled to 'Unknown' indicating that it was too broken to resolve, likely due to ambiguous resolution criteria regarding the price brackets. The dispute flipped the outcome, suggesting that the original contract language was unclear or flawed."
+  },
+  {
+    "id": "will-trump-say-missile-defense-shield-during-his-february-4-press-conference-with-netanyahu",
+    "platform": "polymarket",
+    "question": "Will Trump say \"Missile defense shield\" during his February 4 press conference with Netanyahu?",
+    "volume": 502.05262,
+    "rationale": "The market settled to 'Unknown' due to the inability to resolve the outcome, indicating a flaw in the contract's specification. The ambiguity in the resolution criteria and the early return settlement suggest that the contract was too broken to resolve properly."
+  },
+  {
+    "id": "lil-wayne-drops-music-in-may",
+    "platform": "polymarket",
+    "question": "Lil Wayne drops music in May?",
+    "volume": 3560.355526,
+    "rationale": "The market settled to 'Unknown' indicating that it was too broken to resolve, which suggests there were unresolvable conditions or ambiguities in the contract. The dispute flipping the outcome further indicates that the original resolution was not adequately supported by the contract's specifications."
+  },
+  {
+    "id": "will-man-on-fire-be-the-top-us-netflix-movie-this-week-january-6-2026",
+    "platform": "polymarket",
+    "question": "Will \"Man on Fire\" be the top US Netflix movie this week? (January 6, 2026)",
+    "volume": 7076.649463,
+    "rationale": "The market settled to 'Unknown' due to the absence of the expected Netflix update, indicating that the contract was too broken to resolve. The ambiguity surrounding the resolution criteria and the reliance on a specific data source that did not provide the necessary information led to this classification."
+  },
+  {
+    "id": "will-bob-iger-remain-ceo-of-disney-through-september",
+    "platform": "polymarket",
+    "question": "Will Bob Iger remain CEO of Disney through September?",
+    "volume": 1557.640126,
+    "rationale": "The market settled to 'Unknown' indicating that it was too broken to resolve, likely due to ambiguous resolution criteria regarding what constitutes confirmation of Bob Iger's status as CEO. The dispute flipped the outcome, suggesting that the original contract language was insufficiently clear, leading to the inability to determine a definitive resolution."
+  },
+  {
+    "id": "will-deebo-samuel-be-traded-to-the-pittsburgh-steelers",
+    "platform": "polymarket",
+    "question": "Will Deebo Samuel be traded to the Pittsburgh Steelers?",
+    "volume": 7742.015213,
+    "rationale": "The market settled to 'Unknown' due to the inability to resolve the contract, indicating a flaw in the contract's specification. The ambiguity in the resolution criteria likely contributed to the dispute, as the outcome was flipped despite the original resolution being unclear."
+  },
+  {
+    "id": "highest-temperature-in-atlanta-on-january-3-64-65f",
+    "platform": "polymarket",
+    "question": "Will the highest temperature in Atlanta be between 64-65\u00b0F on January 3?",
+    "volume": 3786.065,
+    "rationale": "The market settled to 'Unknown' due to the inability to resolve based on the specified criteria, indicating a flaw in the contract's resolution rules. The ambiguity in the resolution process led to the dispute flipping the outcome, which aligns with the characteristics of a specification issue."
+  },
+  {
+    "id": "highest-temperature-in-seattle-on-january-8-44-45f",
+    "platform": "polymarket",
+    "question": "Will the highest temperature in Seattle be between 44-45\u00b0F on January 8?",
+    "volume": 2686.819064,
+    "rationale": "The market settled to 'Unknown' due to the inability to resolve based on the specified criteria, indicating a flaw in the contract's resolution conditions. The ambiguity in the resolution process and the reliance on a specific data source that may not have provided conclusive results contributed to the dispute."
+  },
+  {
+    "id": "craus-bri-ade-2025-12-27-team-top-batter-bri",
+    "platform": "polymarket",
+    "question": "Big Bash League: Brisbane Heat vs Adelaide Strikers (Game 1) - Team Top Batter Brisbane Heat Winner",
+    "volume": 1926.99,
+    "rationale": "The market settled to 'Early Return / Unknown', indicating that the contract was too broken to resolve properly. Additionally, the dispute flipped the outcome, suggesting that there was ambiguity or an unresolvable condition in the contract language regarding how to handle the situation that led to the early return."
+  },
+  {
+    "id": "will-the-highest-temperature-in-london-be-between-73-74f-on-august-31",
+    "platform": "polymarket",
+    "question": "Will the highest temperature in London be between 73-74\u00b0F on August 31?",
+    "volume": 3883.189622,
+    "rationale": "The market settled to 'Unknown' due to the inability to resolve based on the specified conditions, indicating a flaw in the contract's resolution criteria. The ambiguity in how the temperature data would be finalized and the reliance on a specific source contributed to the dispute, which flipped the outcome."
+  },
+  {
+    "id": "will-the-highest-temperature-in-london-be-between-68-69f-on-august-27",
+    "platform": "polymarket",
+    "question": "Will the highest temperature in London be between 68-69\u00b0F on August 27?",
+    "volume": 7071.709936,
+    "rationale": "The market settled to 'Unknown' due to the inability to resolve based on the specified criteria, indicating a flaw in the contract's resolution rules. The ambiguity in the resolution process led to the dispute flipping the outcome, which suggests that the contract was too broken to resolve properly."
+  },
+  {
+    "id": "will-another-driver-win-the-united-states-grand-prix",
+    "platform": "polymarket",
+    "question": "Will another driver win the United States Grand Prix?",
+    "volume": 4232.377154,
+    "rationale": "The market settled to 'Unknown' due to the inability to resolve the outcome, indicating that the contract was too broken to determine a clear resolution. This suggests flaws in the contract's specification, leading to the dispute."
+  },
+  {
+    "id": "will-the-spx-opening-price-on-january-5-be-between-6858pt47-and-6927pt05",
+    "platform": "polymarket",
+    "question": "Will the SPX opening price on January 5 be between 6,858.47 and 6,927.05?",
+    "volume": 42789.826207,
+    "rationale": "The market settled to 'Unknown' due to an inability to resolve the contract, indicating a flaw in the contract specifications. The ambiguity in the resolution criteria regarding what constitutes an 'official relevant price' likely contributed to the dispute and the early return settlement."
+  },
+  {
+    "id": "will-hakeem-jeffries-get-the-most-votes-in-next-vote-for-speaker",
+    "platform": "polymarket",
+    "question": "Will Hakeem Jeffries get the most votes in next vote for Speaker?",
+    "volume": 39860.357942999995,
+    "rationale": "The market settled to 'Unknown' due to the absence of a vote, indicating that the contract was too broken to resolve. The resolution rules did not adequately address the scenario of no vote occurring, leading to ambiguity and an early return settlement."
+  },
+  {
+    "id": "trump-approval-up-or-down-this-week-442",
+    "platform": "polymarket",
+    "question": "Trump approval Up or Down this week?",
+    "volume": 17705.789746,
+    "rationale": "The market settled to 'Unknown' due to the inability to resolve based on the provided data, indicating a flaw in the contract's specifications. The ambiguity in the resolution criteria and the conditions for data availability likely contributed to the dispute and the early return settlement."
+  },
+  {
+    "id": "el-salvador-presidential-election-will-manuel-flores-win",
+    "platform": "polymarket",
+    "question": "El Salvador Presidential Election: Will Manuel Flores win?",
+    "volume": 19055.0,
+    "rationale": "The market settled to 'Unknown' due to the inability to resolve the outcome, indicating a flaw in the contract's resolution criteria. The ambiguity surrounding the election's outcome and the early return settlement suggests that the contract was too broken to resolve properly."
+  },
+  {
+    "id": "will-trump-win-west-virginia-by-the-largest-margin",
+    "platform": "polymarket",
+    "question": "Will Trump win West Virginia by the largest margin?",
+    "volume": 34615.243032,
+    "rationale": "The market settled to 'Unknown' due to an early return, indicating that the contract was too broken to resolve properly. Additionally, the dispute flipped the outcome, suggesting that there were ambiguities or unresolved conditions in the contract that led to the inability to determine a clear resolution."
+  },
+  {
+    "id": "will-solana-reach-175-august-410-494",
+    "platform": "polymarket",
+    "question": "Will Solana reach $175 August 4\u201310?",
+    "volume": 30496.64726,
+    "rationale": "The market settled to 'Unknown' indicating that it was too broken to resolve, likely due to issues with the resolution criteria or data source. The fact that the dispute flipped the outcome suggests ambiguity in the contract language or resolution rules, which contributed to the inability to determine a clear resolution."
+  },
+  {
+    "id": "will-oscar-piastri-win-the-united-states-grand-prix",
+    "platform": "polymarket",
+    "question": "Will Oscar Piastri win the United States Grand Prix?",
+    "volume": 10616.439895,
+    "rationale": "The market settled to 'Unknown' due to the inability to resolve the outcome, indicating that the contract was too broken to determine a clear resolution. This suggests a flaw in the contract's specification, leading to the dispute."
+  },
+  {
+    "id": "will-frieren-beyond-journeys-end-win-crunchyroll-anime-of-the-year-2025",
+    "platform": "polymarket",
+    "question": "Will 'Frieren: Beyond Journey's End' win Crunchyroll Anime of the Year 2025?",
+    "volume": 90300.864046,
+    "rationale": "The market settled to 'Unknown' due to the lack of a declared winner by the specified deadline, indicating that the contract was too broken to resolve properly. This situation suggests a flaw in the contract's resolution criteria regarding what happens in the event of no winner or a tie."
+  },
+  {
+    "id": "highest-temperature-in-seoul-on-january-14-neg-2c",
+    "platform": "polymarket",
+    "question": "Will the highest temperature in Seoul be -2\u00b0C on January 14?",
+    "volume": 23542.600596,
+    "rationale": "The market settled to 'Unknown' due to the inability to resolve based on the specified criteria, indicating a flaw in the contract's resolution rules. The ambiguity in the resolution process and the early return settlement suggest that the contract was too broken to resolve properly."
+  },
+  {
+    "id": "will-the-price-of-ethereum-be-greater-than-4700-on-september-16",
+    "platform": "polymarket",
+    "question": "Will the price of Ethereum be greater than $4,700 on September 16?",
+    "volume": 55333.086664,
+    "rationale": "The market settled to 'Unknown' due to an early return, indicating that the contract was too broken to resolve. The ambiguity in the resolution criteria regarding the exact price reporting may have contributed to the dispute, leading to a classification of specification_issue."
+  },
+  {
+    "id": "will-ftx-payouts-start-in-q4-2024",
+    "platform": "polymarket",
+    "question": "Will FTX payouts start in Q4 2024?",
+    "volume": 576292.261939002,
+    "rationale": "The market settled to 'Unknown' due to the inability to resolve the contract, indicating that the contract was too broken to determine a clear outcome. The dispute flipped the outcome, suggesting ambiguity in the resolution criteria regarding the timing and conditions for payouts."
+  },
+  {
+    "id": "nba-cha-lac-2025-03-16",
+    "platform": "polymarket",
+    "question": "Hornets vs. Clippers",
+    "volume": 225593.560008,
+    "rationale": "The market settled to 'Unknown' due to an early return, indicating that the contract was too broken to resolve properly. This suggests a flaw in the contract's resolution criteria, leading to the dispute."
+  },
+  {
+    "id": "will-han-duck-soo-register-for-presidential-run",
+    "platform": "polymarket",
+    "question": "Will Han Duck-soo register for presidential run?",
+    "volume": 310401.846632,
+    "rationale": "The market settled to 'Unknown' indicating that the contract was too broken to resolve, likely due to ambiguous or unresolvable conditions regarding the registration process. The dispute flipped the outcome, which suggests that the original resolution was not clear or definitive, further supporting the classification as a specification issue."
+  },
+  {
+    "id": "bitcoin-up-or-down-on-may-26",
+    "platform": "polymarket",
+    "question": "Bitcoin Up or Down on May 26?",
+    "volume": 572543.120954,
+    "rationale": "The market settled to 'Unknown' due to an early return, indicating that the contract was too broken to resolve. Additionally, the dispute flipped the outcome, suggesting that there were ambiguities or issues in the contract's resolution criteria."
+  },
+  {
+    "id": "mlb-mia-cle-2025-08-12",
+    "platform": "polymarket",
+    "question": "Marlins vs. Guardians",
+    "volume": 118785.716529,
+    "rationale": "The market settled to 'Unknown' due to the inability to resolve the outcome, indicating that the contract was too broken to determine a clear resolution. This suggests a flaw in the contract's specification regarding how to handle certain scenarios, leading to the dispute."
+  },
+  {
+    "id": "israel-x-syria-territorial-agreement-by-end-of-2025",
+    "platform": "polymarket",
+    "question": "Israel x Syria security deal before September?",
+    "volume": 274448.636664,
+    "rationale": "The market settled to 'Unknown' indicating that it was too broken to resolve, which suggests a flaw in the contract's specification. Additionally, the dispute flipped the outcome, which points to ambiguity or unresolvable conditions in the contract language."
+  },
+  {
+    "id": "trump-flips-kamala-on-538-before-election",
+    "platform": "polymarket",
+    "question": "Trump flips Kamala on 538 before election?",
+    "volume": 248753.700439,
+    "rationale": "The market settled to 'Unknown' indicating that it was too broken to resolve, likely due to ambiguous resolution criteria regarding what constitutes a 'flip' and the conditions under which the market would resolve. The dispute flipping the outcome suggests that the original resolution was not clear, reinforcing the classification as a specification issue."
+  },
+  {
+    "id": "ethereum-up-or-down-on-may-9",
+    "platform": "polymarket",
+    "question": "Ethereum Up or Down on May 9?",
+    "volume": 202686.631785,
+    "rationale": "The market settled to 'Early Return / Unknown', indicating that the contract was too broken to resolve properly. The ambiguity in the resolution criteria regarding the exact conditions for equal closing prices likely contributed to the dispute and the inability to reach a clear resolution."
+  },
+  {
+    "id": "will-the-running-man-opening-weekend-box-office-be-between-17m-and-19m",
+    "platform": "polymarket",
+    "question": "Will \"The Running Man\" Opening Weekend Box Office be between 17m and 19m?",
+    "volume": 476356.441714,
+    "rationale": "The market settled to 'Unknown' due to the lack of final data, indicating that the contract was too broken to resolve. The ambiguity regarding the resolution source's figures and the conditions for finality contributed to this issue."
+  },
+  {
+    "id": "f1-qatar-grand-prix-winner-russell-2025-11-30",
+    "platform": "polymarket",
+    "question": "Will George Russell win the 2025 F1 Qatar Grand Prix?",
+    "volume": 105834.981568,
+    "rationale": "The market settled to 'Unknown' due to the inability to resolve the outcome, indicating a flaw in the contract's specifications. The ambiguity in the resolution criteria regarding potential race cancellations or rescheduling likely contributed to the dispute, as it led to an unresolvable condition."
+  },
+  {
+    "id": "will-elon-tweet-900-or-more-times-feb-21-28",
+    "platform": "polymarket",
+    "question": "Will Elon tweet 900 or more times Feb 21-28?",
+    "volume": 1115054.594909,
+    "rationale": "The market settled to 'Unknown' due to issues with the resolution source, indicating that the contract was too broken to resolve. This suggests a flaw in the specification of the contract, as it could not provide a reliable outcome."
+  },
+  {
+    "id": "will-avatar-fire-and-ash-opening-weekend-box-office-be-less-than-90m",
+    "platform": "polymarket",
+    "question": "Will \"Avatar: Fire and Ash\" Opening Weekend Box Office be less than 90m?",
+    "volume": 2320174.906847,
+    "rationale": "The market settled to 'Unknown' due to the inability to resolve based on the specified criteria, indicating a flaw in the contract's resolution process. The ambiguity regarding the finality of the resolution source's figures contributed to the dispute, leading to an early return settlement."
+  },
+  {
+    "id": "india-military-action-against-pakistan-before-june",
+    "platform": "polymarket",
+    "question": "India military action against Pakistan before June?",
+    "volume": 1064690.978367,
+    "rationale": "The market settled to 'Unknown' indicating that it was too broken to resolve, which suggests a flaw in the contract's specification. Additionally, the dispute flipped the outcome, which points to ambiguity or unresolvable conditions in the contract language regarding what constitutes 'military action' or the criteria for resolution."
+  },
+  {
+    "id": "will-the-next-government-of-canada-be-a-conservative-minority",
+    "platform": "polymarket",
+    "question": "Will the next Government of Canada be a Conservative minority?",
+    "volume": 2087669.058381,
+    "rationale": "The market settled to 'Unknown' due to the inability to resolve the outcome, indicating a flaw in the contract's resolution criteria. The ambiguity in the resolution rules regarding the timing and conditions for determining the government likely contributed to the dispute and the early return settlement."
+  },
+  {
+    "id": "will-assad-remain-president-of-syria-through-2024",
+    "platform": "polymarket",
+    "question": "Will Assad remain President of Syria through 2024?",
+    "volume": 7577895.740092,
+    "rationale": "The market settled to 'Unknown' indicating that it was too broken to resolve, which suggests there were unresolvable conditions or a lack of reliable data source. Additionally, the dispute flipped the outcome, which points to ambiguity in the contract language or resolution criteria."
+  },
+  {
+    "id": "fordow-nuclear-facility-destroyed-before-july",
+    "platform": "polymarket",
+    "question": "Fordow nuclear facility destroyed before July?",
+    "volume": 28623187.178979,
+    "rationale": "The market settled to 'Unknown' indicating that the contract was too broken to resolve, likely due to ambiguous resolution criteria regarding what constitutes 'destruction'. This ambiguity likely led to the dispute flipping the outcome."
+  },
+  {
+    "id": "will-how-to-train-your-dragon-be-the-top-grossing-movie-of-2025",
+    "platform": "polymarket",
+    "question": "Will How to Train Your Dragon be the top grossing movie of 2025?",
+    "volume": 13968519.399758,
+    "rationale": "The market settled to 'Unknown' due to the lack of final data, indicating that the contract was too broken to resolve properly. This situation suggests a flaw in the contract's specification regarding the resolution criteria, leading to the dispute."
+  },
+  {
+    "id": "biden-nominated-by-july-21",
+    "platform": "polymarket",
+    "question": "Biden nominated by July 21?",
+    "volume": 1170186.522162,
+    "rationale": "The market settled to 'Unknown' indicating that the contract was too broken to resolve, likely due to ambiguous or unclear resolution criteria regarding the nomination process. The dispute flipped the outcome, which suggests that the original resolution was not adequately supported by the contract's language."
+  },
+  {
+    "id": "rfk-jr-confirmed-as-hhs-secretary",
+    "platform": "polymarket",
+    "question": "RFK Jr. confirmed as Health & Human Services Secretary?",
+    "volume": 3605358.465424,
+    "rationale": "The market settled to 'Unknown' indicating that it was too broken to resolve, which suggests there were unresolvable conditions or ambiguities in the contract. The fact that the dispute flipped the outcome further indicates that the original resolution criteria were not adequately defined."
+  },
+  {
+    "id": "will-bitcoin-dip-to-85000-by-january-31-2025",
+    "platform": "polymarket",
+    "question": "Will Bitcoin dip to $85,000 by January 31, 2025?",
+    "volume": 3817183.758137,
+    "rationale": "The market resolved to 'Unknown' due to an early return settlement, indicating that the contract was too broken to resolve properly. Additionally, the dispute flipped the outcome, suggesting that there were ambiguities or issues in the contract that led to confusion about the resolution criteria."
+  },
+  {
+    "id": "KXCOPPERMON-26MAY2917-T6.95",
+    "platform": "kalshi",
+    "question": "Will the copper close price be above 6.95  USD/Lbs on May 29, 2026 at 5:00 PM EDT?",
+    "volume": 784.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXSILVERW-26APR0317-T49.49",
+    "platform": "kalshi",
+    "question": "Will the silver close price be above $49.49 on Apr 3, 2026 at 5pm EDT?",
+    "volume": 10.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXCAPRIMARY-0126-JGAL",
+    "platform": "kalshi",
+    "question": "Will James Gallagher advance in the 2026 CA-01 primary?",
+    "volume": 899.06,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXNCAABMENTION-26APR03SCARCONN-ALLE",
+    "platform": "kalshi",
+    "question": "What will the announcers say during South Carolina at UConn women's college basketball game originally scheduled for Apr 3, 2026?",
+    "volume": 634.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXSILVERW-26APR0317-T38.49",
+    "platform": "kalshi",
+    "question": "Will the silver close price be above $38.49 on Apr 3, 2026 at 5pm EDT?",
+    "volume": 2.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXGOLDW-26APR0317-T4059.99",
+    "platform": "kalshi",
+    "question": "Will the gold open price be above $4059.99 on Apr 3, 2026 at 5pm EDT?",
+    "volume": 10.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXBRIANBAUMGARTNER-25-250",
+    "platform": "kalshi",
+    "question": "Brian Baumgartner Processes at least 250 in 8 Hours?",
+    "volume": 591.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXBILATERALMENTION-26JAN29-DONE",
+    "platform": "kalshi",
+    "question": "What will Trump say during Next Bilateral Meeting with a Foreign Leader in the Oval Office?",
+    "volume": 962.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXJUULFLAVOR-27-WAT",
+    "platform": "kalshi",
+    "question": "When will JUUL release Watermelon to the public?",
+    "volume": 0.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXMRBEASTMENTION-25AUG10-AMA",
+    "platform": "kalshi",
+    "question": "What will MrBeast say during his next video?",
+    "volume": 168.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXBRENTW-26APR0317-T97.99",
+    "platform": "kalshi",
+    "question": "Will the brent crude oil close price be above $97.99 on Apr 3, 2026 at 5pm EDT?",
+    "volume": 3735.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXVOTESHUTDOWNS-JAN27-SCOL",
+    "platform": "kalshi",
+    "question": "Will Susan Collins vote for the next government funding bill?",
+    "volume": 6316.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXHOCHULMENTION-26JAN30-BAN",
+    "platform": "kalshi",
+    "question": "What will Kathy Hochul say during Roundtable With Parents to Highlight Her Kids Online Safety Proposal?",
+    "volume": 9637.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXVOTESHUTDOWNS-JAN27-CCM",
+    "platform": "kalshi",
+    "question": "Will Catherine Cortez Masto vote for the next government funding bill?",
+    "volume": 2848.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXBRKEM-25MAY02-BB",
+    "platform": "kalshi",
+    "question": "What will representatives of Berkshire Hathaway say during Earnings Call?",
+    "volume": 3436.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXNCAABMENTION-26APR03SCARCONN-SCHE",
+    "platform": "kalshi",
+    "question": "What will the announcers say during South Carolina at UConn women's college basketball game originally scheduled for Apr 3, 2026?",
+    "volume": 1107.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXLEBANONPARLI-26-EPOS",
+    "platform": "kalshi",
+    "question": "Will the Election Postponed Beyond Expiration win the next Lebanese general election?",
+    "volume": 8220.78,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXOSCARNOMSUPACTR-26-TS",
+    "platform": "kalshi",
+    "question": "2026 Supporting Actress Oscar nominations?",
+    "volume": 4525.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXTRUMPENDORSEMENTS-26MAY16-A5",
+    "platform": "kalshi",
+    "question": "Will Trump endorse at least 5 people on Truth Social this week?",
+    "volume": 7163.78,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXUSHOMEVAL-26MAR19-T365000",
+    "platform": "kalshi",
+    "question": "Will the US metro area typical home value for March 2026 be above 365000?",
+    "volume": 1543.54,
+    "rationale": "Kalshi dispute flags: CLARIFICATION"
+  },
+  {
+    "id": "KXOSCARNOMSUPACTO-26-AG",
+    "platform": "kalshi",
+    "question": "2026 Best Supporting Actor Oscar nominations?",
+    "volume": 19240.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXFIGHTMENTION-26JAN24GAEPIM-KILL",
+    "platform": "kalshi",
+    "question": "What will the announcers say during Gaethje vs Pimblett professional MMA fight originally scheduled for Jan 24, 2026?",
+    "volume": 38483.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXOSCARNOMSUPACTR-26-LD",
+    "platform": "kalshi",
+    "question": "2026 Supporting Actress Oscar nominations?",
+    "volume": 40416.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXOSCARNOMACTR-26-JS",
+    "platform": "kalshi",
+    "question": "2026 Best Actress Oscar nominations?",
+    "volume": 28790.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXINFANTINOMENTION-25DEC31-PEAC",
+    "platform": "kalshi",
+    "question": "What will Gianni Infantino say during FIFA World Cup 2025 Final Draw?",
+    "volume": 24246.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXTRUMPMENTION-25NOV22-RADI",
+    "platform": "kalshi",
+    "question": "What will Donald Trump say during The Brian Kilmeade Radio Show?",
+    "volume": 14284.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXMAMDANISWEARING-26JAN01-BOBA",
+    "platform": "kalshi",
+    "question": "Will Barack Obama attend Zohran Mamdani's swearing-in ceremony?",
+    "volume": 47866.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXTRUMPMENTION-26APR16-SOCI",
+    "platform": "kalshi",
+    "question": "What will Donald Trump say during Roundtable on No Tax on Tips?",
+    "volume": 16863.67,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXWTIW-26APR17-B98.5",
+    "platform": "kalshi",
+    "question": "Will the WTI front-month settle oil price  be Between 98.00 and 98.99 on Apr 17, 2026?",
+    "volume": 73531.26,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXTRUMPMENTION-25SEP18-CHAR",
+    "platform": "kalshi",
+    "question": "What will Trump say during Trump-Starmer bilateral at Chequers on September 18th?",
+    "volume": 16957.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXTRUMPMENTION-26APR16-DOOR",
+    "platform": "kalshi",
+    "question": "What will Donald Trump say during Roundtable on No Tax on Tips?",
+    "volume": 148772.6,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXDEBTLEVEL-25",
+    "platform": "kalshi",
+    "question": "Will total U.S. debt be above $38T at the end of 2025?",
+    "volume": 351523.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXSUPERBOWLAD-SB2026-ATHL",
+    "platform": "kalshi",
+    "question": "Will Athletic Greens run an ad during the Big Game 2026?",
+    "volume": 232202.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXTRUMPCHINA-26-JUN01",
+    "platform": "kalshi",
+    "question": "Will Donald Trump visit China before Jun 1, 2026?",
+    "volume": 201687.54,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXFBI-26DEC31-MR",
+    "platform": "kalshi",
+    "question": "Will Mike Rogers be confirmed as Director of the Federal Bureau of Investigation by Dec 31, 2026?",
+    "volume": 131607.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXSECHHS-26DEC31-BC",
+    "platform": "kalshi",
+    "question": "Will Ben Carson be confirmed as Secretary of Health and Human Services by Dec 31, 2026?",
+    "volume": 635968.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXVENEZUELALEADER-26DEC31-PHEG",
+    "platform": "kalshi",
+    "question": "Will Pete Hegseth be the head of state of Venezuela on Dec 31, 2026?",
+    "volume": 129842.4,
+    "rationale": "Kalshi dispute flags: CLARIFICATION"
+  },
+  {
+    "id": "KXIPHONERELEASE-IPHONE18-27JAN01",
+    "platform": "kalshi",
+    "question": "Will Apple Inc. release iPhone 18 before Jan 1, 2027?",
+    "volume": 227023.9,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXDJTJOINTSESSION-25MAR04-AF",
+    "platform": "kalshi",
+    "question": "Will Trump say America First at his speech to Congress on March 4?",
+    "volume": 104346.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXPERFORMSUPERBOWLB-26-POST",
+    "platform": "kalshi",
+    "question": "Who will perform at the Super Bowl LX?",
+    "volume": 155627.0,
+    "rationale": "Kalshi dispute flags: PAUSED"
+  },
+  {
+    "id": "KXPERFORMSUPERBOWLB-26-KAR",
+    "platform": "kalshi",
+    "question": "Who will perform at the Super Bowl LX?",
+    "volume": 2033118.0,
+    "rationale": "Kalshi dispute flags: PAUSED"
+  },
+  {
+    "id": "KXLLM1-25DEC31-GOOG",
+    "platform": "kalshi",
+    "question": "Best AI at year end?",
+    "volume": 4123546.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "SENATEMOV-24-R-B3",
+    "platform": "kalshi",
+    "question": "Will the Senate margin of victory for Republicans be 3 ?",
+    "volume": 2683952.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXTRUMPOFFICIAL-25MAY01-KLA",
+    "platform": "kalshi",
+    "question": "Will Kari Lake join the Trump Administration?",
+    "volume": 1549217.0,
+    "rationale": "Kalshi dispute flags: CLARIFICATION"
+  },
+  {
+    "id": "KXKHAMENEIOUT-AKHA-26SEP01",
+    "platform": "kalshi",
+    "question": "Will Ali Khamenei leave office before 2026-09-01T14:00:00.000Z?",
+    "volume": 1615496.0,
+    "rationale": "Kalshi dispute flags: PAUSED, RULE_13, OUTCOME_REVIEW_COMMITTEE, REIMBURSEMENT, CLARIFICATION"
+  },
+  {
+    "id": "KXNEXTAG-29-TBLA",
+    "platform": "kalshi",
+    "question": "Who will be Trump's next Attorney General?",
+    "volume": 1471244.98,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXCABOUT-29-KN",
+    "platform": "kalshi",
+    "question": "Will Kristi Noem be the first person to leave the Trump Cabinet?",
+    "volume": 1170269.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXKHAMENEIOUT-AKHA-26JUL01",
+    "platform": "kalshi",
+    "question": "Will Ali Khamenei leave office before 2026-07-01T14:00:00.000Z?",
+    "volume": 2656819.0,
+    "rationale": "Kalshi dispute flags: PAUSED, RULE_13, OUTCOME_REVIEW_COMMITTEE, REIMBURSEMENT, CLARIFICATION"
+  },
+  {
+    "id": "KXACQUANNOUNCETIKTOK-25-ANY",
+    "platform": "kalshi",
+    "question": "Will Any Company acquire TikTok in 2025?",
+    "volume": 1002582.0,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  },
+  {
+    "id": "KXMOVVAREDISTRICT-26APR21-YES-P1",
+    "platform": "kalshi",
+    "question": "Will the margin of victory for Yes in the 2026 Virginia redistricting amendment be between 0% and 3%?",
+    "volume": 2649717.03,
+    "rationale": "Kalshi dispute flags: OTHER_INFO"
+  }
+]
