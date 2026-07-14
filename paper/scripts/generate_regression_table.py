@@ -22,10 +22,11 @@ ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 sys.path.insert(0, str(ROOT / "paper" / "scripts"))
 from dispute_regression import (  # noqa: E402
-    AXES, LEARN_COLS, EBMClassifier, HandLogit, SkLogit, cv_auc, fit_full,
-    logit_l2, market_units,
+    AXES, LEARN_COLS, EBMClassifier, HandLogit, HGBModel, SkLogit, cv_auc,
+    fit_full, logit_l2, market_units,
 )
-from _dispute_data import graded_rows, is_genuine, is_confirmed  # noqa: E402
+from _dispute_data import (graded_rows, group_of, grouped_train_mask,  # noqa: E402
+                           is_genuine, is_confirmed)
 from grade_binning import fit_grades, _rates, NOT_IG_FROM  # noqa: E402  (monotonic grades)
 
 # Binning target for the main-text grade table (Table 6); the appendix shows all three.
@@ -91,11 +92,8 @@ def model_auc_full_table(outfile="dispute_auc_full.tex", label="tab:dispute_auc_
     mat = _np.array([is_genuine(r) for r in rows])
     conf = _np.array([is_confirmed(r) for r in rows])
     clean = pop & ~disp
-    rng = _np.random.default_rng(42)
-    tr = _np.zeros(len(rows), bool)
-    for cls in (False, True):
-        ix = _np.where(disp == cls)[0]; rng.shuffle(ix)
-        tr[ix[:int(0.7 * len(ix))]] = True
+    grp = _np.array([group_of(r) for r in rows])
+    tr = grouped_train_mask(list(grp), disp, frac=0.7, seed=42)  # grouped split
     te = ~tr
     platform = _np.array([r["platform"] for r in rows])
     sev_arr = {"all": disp, "material": mat, "confirmed": conf}
@@ -103,7 +101,8 @@ def model_auc_full_table(outfile="dispute_auc_full.tex", label="tab:dispute_auc_
     factories = [("Logistic", lambda: HandLogit()),
                  ("Lasso", lambda: SkLogit(l1_ratio=1.0)),
                  ("Ridge", lambda: SkLogit(l1_ratio=0.0)),
-                 ("EBM", lambda: EBMClassifier())]
+                 ("EBM", lambda: EBMClassifier()),
+                 ("HGB", lambda: HGBModel())]
     xgb_ok = True
     try:
         from dispute_regression import XGBClassifierModel
@@ -118,7 +117,8 @@ def model_auc_full_table(outfile="dispute_auc_full.tex", label="tab:dispute_auc_
         mu, sd = X[m].mean(0), X[m].std(0); sd[sd == 0] = 1
         scores = {"Equal sum": rawsum}
         for name, factory in factories:
-            mdl = factory().fit((X[m] - mu) / sd, target_pos[m].astype(float))
+            mdl = factory().fit((X[m] - mu) / sd, target_pos[m].astype(float),
+                                groups=grp[m])
             scores[name] = mdl.score((X - mu) / sd)
         return scores
 
@@ -160,13 +160,14 @@ def model_auc_full_table(outfile="dispute_auc_full.tex", label="tab:dispute_auc_
         "\\midrule",
         *body,
         "\\bottomrule", "\\end{tabular}",
-        "\\tabnote{Held-out AUC ($0.5=$ chance) on a common 30\\% split, by platform and "
-        "severity, with one panel per training set (random clean markets $+$ that dispute "
-        "set as positives). Each model is fit once on the pooled training split and "
-        "evaluated within each platform; ``Equal sum'' is the unweighted ten-axis total. "
-        "Severity nests as all $\\supset$ material $\\supset$ confirmed; ``--'' marks too "
-        "few positives to estimate. The pooled, confirmed-trained column matches "
-        "Table~\\ref{tab:dispute_models}.}",
+        "\\tabnote{Held-out AUC ($0.5=$ chance) on a common 30\\% grouped split (whole "
+        "Kalshi series / Polymarket slug families held out together, so no twin market "
+        "straddles the boundary), by platform and severity, with one panel per training "
+        "set (random clean markets $+$ that dispute set as positives). Each model is fit "
+        "once on the pooled training split and evaluated within each platform; ``Equal "
+        "sum'' is the unweighted ten-axis total. Severity nests as all $\\supset$ "
+        "material $\\supset$ confirmed; ``--'' marks too few positives to estimate. The "
+        "pooled, confirmed-trained column matches Table~\\ref{tab:dispute_models}.}",
         "\\end{table}", "",
     ]
     (TAB / outfile).write_text("\n".join(lines))
@@ -178,7 +179,8 @@ def auc_table(pm, kal, targets=("all", "material", "confirmed"),
     """Train x test AUC matrix. One panel per training set in `targets` (random clean
     markets + that dispute set as positives), each reporting out-of-sample AUC at
     predicting all / material / confirmed disputes, by platform and pooled. Common
-    70/30 split (so the diagonal is not leaky); negatives are always the random clean
+    GROUPED 70/30 split (whole series/families to one side, so the diagonal is
+    not leaky through twin markets); negatives are always the random clean
     markets; volume added separately as the last column."""
     import json as _json
     import numpy as _np
@@ -208,11 +210,8 @@ def auc_table(pm, kal, targets=("all", "material", "confirmed"),
     conf = _np.array([is_confirmed(r) for r in rows])
     clean = pop & ~disp                                            # random non-disputed (negatives)
 
-    rng = _np.random.default_rng(42)                              # one common 70/30 split
-    tr = _np.zeros(len(rows), bool)
-    for cls in (False, True):
-        ix = _np.where(disp == cls)[0]; rng.shuffle(ix)
-        tr[ix[:int(0.7 * len(ix))]] = True
+    grp = _np.array([group_of(r) for r in rows])                  # one common grouped 70/30 split
+    tr = grouped_train_mask(list(grp), disp, frac=0.7, seed=42)
     te = ~tr
 
     platform = _np.array([r["platform"] for r in rows])
@@ -274,7 +273,8 @@ def auc_table(pm, kal, targets=("all", "material", "confirmed"),
         "\\midrule",
         *body,
         "\\bottomrule", "\\end{tabular}",
-        "\\tabnote{AUC ($0.5=$ chance) on a held-out 30\\% split. ``Equal sum'' is the "
+        "\\tabnote{AUC ($0.5=$ chance) on a held-out 30\\% grouped split (whole "
+        "series/families held out together). ``Equal sum'' is the "
         "unweighted ten-axis sum; ``$+$ volume'' adds $\\log$ trading volume (partly "
         "post-treatment). Severity nests as all $\\supset$ material $\\supset$ confirmed; "
         "``--'' denotes too few positives to estimate.}",
@@ -291,7 +291,7 @@ def model_leaderboard(outfile="dispute_models.tex", label="tab:dispute_models"):
     disputes are the COLUMNS. All models share one feature set (the nine axes,
     structural pair averaged) and one training set --- random clean markets +
     confirmed disputes, pooled across platforms --- so each row isolates the
-    effect of the estimator, not the inputs. Same data, 70/30 split (seed 42)
+    effect of the estimator, not the inputs. Same data, grouped 70/30 split (seed 42)
     and standardization as auc_table(), so the Logistic row reproduces that
     table's pooled ``Learned axes'' cells. New models (EBM, XGBoost, ...) drop
     in as additional rows. Volume and the all/material training sets are held
@@ -321,11 +321,8 @@ def model_leaderboard(outfile="dispute_models.tex", label="tab:dispute_models"):
     conf = _np.array([is_confirmed(r) for r in rows])
     clean = pop & ~disp                                            # random non-disputed (negatives)
 
-    rng = _np.random.default_rng(42)                              # same common 70/30 split as auc_table
-    tr = _np.zeros(len(rows), bool)
-    for cls in (False, True):
-        ix = _np.where(disp == cls)[0]; rng.shuffle(ix)
-        tr[ix[:int(0.7 * len(ix))]] = True
+    grp = _np.array([group_of(r) for r in rows])                  # same grouped split as auc_table
+    tr = grouped_train_mask(list(grp), disp, frac=0.7, seed=42)
     te = ~tr
 
     train_mask = clean | conf                                     # Random + Confirmed underlying set
@@ -334,7 +331,7 @@ def model_leaderboard(outfile="dispute_models.tex", label="tab:dispute_models"):
         """Standardize on the (Random+Confirmed) train split, fit, score all rows."""
         m = train_mask & tr
         mu, sd = M[m].mean(0), M[m].std(0); sd[sd == 0] = 1
-        model.fit((M[m] - mu) / sd, conf[m].astype(float))
+        model.fit((M[m] - mu) / sd, conf[m].astype(float), groups=grp[m])
         return model.score((M - mu) / sd)
 
     def cell_auc(score, postype):
@@ -351,6 +348,7 @@ def model_leaderboard(outfile="dispute_models.tex", label="tab:dispute_models"):
         ("Logistic (L1, lasso)", fit_model(SkLogit(l1_ratio=1.0), X)),
         ("Logistic (L2, ridge)", fit_model(SkLogit(l1_ratio=0.0), X)),
         ("EBM (glass-box GAM)", fit_model(EBMClassifier(), X)),
+        ("Gradient-boosted trees (HGB, deployed)", fit_model(HGBModel(), X)),
     ]
     # XGBoost needs the xgboost package (and libomp on macOS). Gate on import so
     # the build stays clean if it is unavailable, and auto-includes it once present.
@@ -362,23 +360,30 @@ def model_leaderboard(outfile="dispute_models.tex", label="tab:dispute_models"):
     test_types = [("All disputes", disp), ("Material", mat), ("Confirmed", conf)]
     npos = {tname: int((tt & te).sum()) for tname, tt in test_types}
 
-    def boot_stats(score_by_model, y, B=2000, seed=42):
-        """Stratified test-set bootstrap (positives and negatives resampled
-        separately, preserving prevalence). Returns per model a 95% AUC CI and
-        whether its paired AUC gap vs the equal sum excludes zero (same resampled
-        indices across models, so the comparison is paired)."""
+    def boot_stats(score_by_model, y, groups, B=2000, seed=42):
+        """CLUSTER bootstrap on the test set: whole series/families are
+        resampled with replacement, since twin markets are nearly perfectly
+        correlated and an observation-level bootstrap would understate the
+        variance. Returns per model a 95% AUC CI and whether its paired AUC gap
+        vs the equal sum excludes zero (same resampled clusters across models,
+        so the comparison is paired)."""
         rng = _np.random.default_rng(seed)
-        pos = _np.where(y == 1)[0]; neg = _np.where(y == 0)[0]
+        gidx = {}
+        for i, g in enumerate(groups):
+            gidx.setdefault(g, []).append(i)
+        glist = [_np.array(v) for v in gidx.values()]
         names = list(score_by_model)
-        acc = {n: _np.empty(B) for n in names}
-        dlt = {n: _np.empty(B) for n in names}
+        acc = {n: [] for n in names}
+        dlt = {n: [] for n in names}
         for b in range(B):
-            idx = _np.concatenate([rng.choice(pos, pos.size, True),
-                                   rng.choice(neg, neg.size, True)])
+            pick = rng.choice(len(glist), len(glist), True)
+            idx = _np.concatenate([glist[k] for k in pick])
             yb = y[idx]
+            if yb.sum() in (0, len(yb)):
+                continue                     # degenerate resample: skip
             a = {n: _rauc(yb, s[idx]) for n, s in score_by_model.items()}
             for n in names:
-                acc[n][b] = a[n]; dlt[n][b] = a[n] - a["Equal sum"]
+                acc[n].append(a[n]); dlt[n].append(a[n] - a["Equal sum"])
         out = {}
         for n in names:
             lo, hi = _np.percentile(acc[n], [2.5, 97.5])
@@ -387,12 +392,12 @@ def model_leaderboard(outfile="dispute_models.tex", label="tab:dispute_models"):
             out[n] = (lo, hi, sig)
         return out
 
-    # One paired bootstrap per test column (all models share the resampled rows).
+    # One paired bootstrap per test column (all models share the resampled clusters).
     stats = {}
     for tname, tt in test_types:
         mask = (tt | clean) & te
         y = tt[mask].astype(int)
-        stats[tname] = boot_stats({mn: sc[mask] for mn, sc in models}, y)
+        stats[tname] = boot_stats({mn: sc[mask] for mn, sc in models}, y, grp[mask])
 
     def fmt_val(point, sig):
         if point is None:
@@ -432,13 +437,15 @@ def model_leaderboard(outfile="dispute_models.tex", label="tab:dispute_models"):
         "\\midrule",
         *body,
         "\\bottomrule", "\\end{tabular}",
-        "\\tabnote{Out-of-sample AUC ($0.5=$ chance) on a held-out 30\\% split, pooled "
-        "across platforms; positives are confirmed disputes, negatives random non-disputed "
-        "markets. ``Equal sum'' is the unweighted ten-axis total, fit-free. L1/L2 and "
-        "XGBoost hyperparameters are tuned by inner cross-validation on the training split; "
-        "EBM uses its defaults with internal early stopping. Brackets: 95\\% CIs from "
-        "2{,}000 stratified bootstrap resamples. $^{*}$: AUC differs from the equal sum "
-        "(paired bootstrap, 95\\%). Positives: "
+        "\\tabnote{Out-of-sample AUC ($0.5=$ chance) on a held-out 30\\% grouped split "
+        "(whole series/families held out together, so twin markets never straddle the "
+        "boundary), pooled across platforms; positives are confirmed disputes, negatives "
+        "random non-disputed markets. ``Equal sum'' is the unweighted ten-axis total, "
+        "fit-free. L1/L2 and XGBoost hyperparameters are tuned by grouped inner "
+        "cross-validation on the training split; EBM and HGB use fixed defaults. "
+        "Brackets: 95\\% CIs from 2{,}000 cluster-bootstrap resamples (whole "
+        "series/families resampled). $^{*}$: AUC differs from the equal sum (paired "
+        "cluster bootstrap, 95\\%). Positives: "
         f"{npos['All disputes']:,} all, {npos['Material']:,} material, "
         f"{npos['Confirmed']:,} confirmed.}}",
         "\\end{table}", "",
@@ -447,7 +454,7 @@ def model_leaderboard(outfile="dispute_models.tex", label="tab:dispute_models"):
     print(f"wrote tables/{outfile}")
 
 
-FIG_MODEL_KEYS = ["equal", "logistic", "l1", "l2", "ebm", "xgb", "volume"]
+FIG_MODEL_KEYS = ["equal", "logistic", "l1", "l2", "ebm", "hgb", "xgb", "volume"]
 
 
 def auc_matrix(target="confirmed"):
@@ -488,11 +495,8 @@ def auc_matrix(target="confirmed"):
     conf = _np.array([is_confirmed(r) for r in rows])
     clean = pop & ~disp
 
-    rng = _np.random.default_rng(42)
-    tr = _np.zeros(len(rows), bool)
-    for cls in (False, True):
-        ix = _np.where(disp == cls)[0]; rng.shuffle(ix)
-        tr[ix[:int(0.7 * len(ix))]] = True
+    grp = _np.array([group_of(r) for r in rows])
+    tr = grouped_train_mask(list(grp), disp, frac=0.7, seed=42)   # grouped split
     te = ~tr
     platform = _np.array([r["platform"] for r in rows])
 
@@ -502,7 +506,7 @@ def auc_matrix(target="confirmed"):
     def fit_model(model, M):
         m = train_mask & tr
         mu, sd = M[m].mean(0), M[m].std(0); sd[sd == 0] = 1
-        model.fit((M[m] - mu) / sd, target_pos[m].astype(float))
+        model.fit((M[m] - mu) / sd, target_pos[m].astype(float), groups=grp[m])
         return model.score((M - mu) / sd)
 
     scores = {
@@ -511,6 +515,7 @@ def auc_matrix(target="confirmed"):
         "l1": fit_model(SkLogit(l1_ratio=1.0), X),
         "l2": fit_model(SkLogit(l1_ratio=0.0), X),
         "ebm": fit_model(EBMClassifier(), X),
+        "hgb": fit_model(HGBModel(), X),                   # deployed scoring model
         "volume": fit_model(HandLogit(), XV),              # logistic + log(volume)
     }
     try:
@@ -577,11 +582,12 @@ def coef_table(outfile="dispute_axes.tex", label="tab:dispute_axes"):
     glist = list(gidx)
 
     def penalized(l1_ratio, B=200):
+        from sklearn.model_selection import GroupKFold
         Cs = _np.logspace(-3, 3, 20)
         C = GridSearchCV(
             LogisticRegression(l1_ratio=l1_ratio, solver="saga", max_iter=5000),
-            {"C": Cs}, scoring="roc_auc", cv=5,
-        ).fit(Xs, y).best_params_["C"]
+            {"C": Cs}, scoring="roc_auc", cv=GroupKFold(n_splits=5),
+        ).fit(Xs, y, groups=groups).best_params_["C"]
 
         def fit(Xi, yi):
             return LogisticRegression(l1_ratio=l1_ratio, solver="saga", max_iter=5000,
@@ -739,13 +745,9 @@ def axes_table(pm, kal, cols=LEARN_COLS, outfile="dispute_axes.tex",
             out[name] = (c / sd[j], (c / se if se else 0.0))
         return out
 
-    # same 70/30 stratified split as Table 4 (seed 42, units order == rows order)
+    # same grouped 70/30 split as the other tables (seed 42)
     disp = _np.array([u["disputed"] == 1 for u in pooled])
-    rng = _np.random.default_rng(42)
-    tr = _np.zeros(len(pooled), bool)
-    for cls in (False, True):
-        ix = _np.where(disp == cls)[0]; rng.shuffle(ix)
-        tr[ix[:int(0.7 * len(ix))]] = True
+    tr = grouped_train_mask([u["group"] for u in pooled], disp, frac=0.7, seed=42)
     train = [u for u, t in zip(pooled, tr) if t]
     all_s = train                                                # random clean + all disputes
     mat_s = [u for u in train if (not u["disputed"]) or u["genuine"]]
@@ -911,10 +913,12 @@ def grade_tier_table(cols=None, outfile="grade_tiers.tex", label="tab:grade_tier
         "\\midrule",
         *body,
         "\\bottomrule", "\\end{tabular}",
-        "\\tabnote{Grades from monotonic supervised binning of the composite risk score; "
+        "\\tabnote{Grades from monotonic supervised binning of the composite risk score "
+        "(gradient-boosted trees, fit on the grouped 70\\% training split; merge tests "
+        "use the number of series/families, not markets, as the effective sample size); "
         "the grade count is data-driven. Cells count the markets in each population ($n$ "
         "in header) falling in each grade. Score range is the grade's interval on the "
-        "composite log-odds scale. Rates are case-control inflated, so grades denote "
+        "composite risk-score scale. Rates are case-control inflated, so grades denote "
         "relative risk. The investment-grade line is the dispute odds-ratio cutoff (a grade "
         "is investment grade if its disputes-to-clean odds are at or below the overall), "
         f"which is invariant to the case-control sampling ratio.{vol_note}}}",
@@ -935,6 +939,7 @@ def grade_robustness_table(outfile="grade_robustness.tex",
     units = market_units("polymarket") + market_units("kalshi")
     rawsum = _np.array([sum(u[a] for a in AXES) for u in units], float)
     specs = [
+        ("Gradient boosting (HGB, deployed)", dict(model=HGBModel())),
         ("Equal sum", dict(score=rawsum)),
         ("Logistic", dict(model=HandLogit())),
         ("Lasso (L1)", dict(model=SkLogit(l1_ratio=1.0))),
@@ -1095,7 +1100,7 @@ def axis_ablation_table(outfile="axis_ablation.tex", label="tab:axis_ablation",
                         full_label="tab:axis_ablation_full"):
     """Axis ablations (main text: logistic; appendix: all models, confirmed).
 
-    Same design as the leaderboard: common 70/30 split (seed 42), train on
+    Same design as the leaderboard: common grouped 70/30 split (seed 42), train on
     random clean + confirmed, pooled tie-correct AUC on the held-out 30%.
     Panel A drops one predictor at a time (necessity); Panel B keeps/drops
     groups (sufficiency of the judgment axes, the regulatory pair, and the
@@ -1116,18 +1121,16 @@ def axis_ablation_table(outfile="axis_ablation.tex", label="tab:axis_ablation",
     mat = _np.array([is_genuine(r) for r in rows])
     conf = _np.array([is_confirmed(r) for r in rows])
     clean = pop & ~disp
-    rng = _np.random.default_rng(42)
-    tr = _np.zeros(len(rows), bool)
-    for cls in (False, True):
-        ix = _np.where(disp == cls)[0]; rng.shuffle(ix)
-        tr[ix[:int(0.7 * len(ix))]] = True
+    grp = _np.array([group_of(r) for r in rows])
+    tr = grouped_train_mask(list(grp), disp, frac=0.7, seed=42)   # grouped split
     te = ~tr
     train_mask = (clean | conf) & tr
 
     def fit_scores(model, cols):
         M = _np.column_stack([feats[c] for c in cols])
         mu, sd = M[train_mask].mean(0), M[train_mask].std(0); sd[sd == 0] = 1
-        model.fit((M[train_mask] - mu) / sd, conf[train_mask].astype(float))
+        model.fit((M[train_mask] - mu) / sd, conf[train_mask].astype(float),
+                  groups=grp[train_mask])
         return model.score((M - mu) / sd)
 
     # Equal-sum variants operate on the RAW ten axes: the structural term maps
@@ -1162,21 +1165,28 @@ def axis_ablation_table(outfile="axis_ablation.tex", label="tab:axis_ablation",
     log_scores = {n: fit_scores(HandLogit(), cols)
                   for n, cols in variants + loo + groups}
 
-    # Paired stratified bootstrap on the confirmed test target: ΔAUC vs. full.
+    # Paired CLUSTER bootstrap on the confirmed test target: ΔAUC vs. full.
+    # (Whole series/families resampled — twin markets are near-duplicates, so an
+    # observation bootstrap would understate the variance.)
     msk = (conf | clean) & te
     y = conf[msk].astype(int)
     sub = {n: s[msk] for n, s in log_scores.items()}
     brng = _np.random.default_rng(42)
-    pos = _np.where(y == 1)[0]; neg = _np.where(y == 0)[0]
+    gidx = {}
+    for i, g in enumerate(grp[msk]):
+        gidx.setdefault(g, []).append(i)
+    glist = [_np.array(v) for v in gidx.values()]
     B = 2000
-    dlt = {n: _np.empty(B) for n in sub if n != "Full model (9 predictors)"}
+    dlt = {n: [] for n in sub if n != "Full model (9 predictors)"}
     for b in range(B):
-        idx = _np.concatenate([brng.choice(pos, pos.size, True),
-                               brng.choice(neg, neg.size, True)])
+        pick = brng.choice(len(glist), len(glist), True)
+        idx = _np.concatenate([glist[k] for k in pick])
         yb = y[idx]
+        if yb.sum() in (0, len(yb)):
+            continue
         ref = _rauc(yb, sub["Full model (9 predictors)"][idx])
         for n in dlt:
-            dlt[n][b] = _rauc(yb, sub[n][idx]) - ref
+            dlt[n].append(_rauc(yb, sub[n][idx]) - ref)
     sig = {n: (lambda lo, hi: lo > 0 or hi < 0)(*_np.percentile(d, [2.5, 97.5]))
            for n, d in dlt.items()}
 
@@ -1232,7 +1242,7 @@ def axis_ablation_table(outfile="axis_ablation.tex", label="tab:axis_ablation",
 
     # ── Appendix: confirmed-target AUC for the same ablations, all models ──
     models = [("Equal sum", None), ("Logistic", lambda: HandLogit()),
-              ("EBM", lambda: EBMClassifier())]
+              ("EBM", lambda: EBMClassifier()), ("HGB", lambda: HGBModel())]
     try:
         from dispute_regression import XGBClassifierModel
         models.append(("XGBoost", lambda: XGBClassifierModel()))

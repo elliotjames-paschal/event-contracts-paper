@@ -1,8 +1,12 @@
 """Monotonic supervised grade binning (shared by Table 6 and the appendix figure).
 
 Design (Section 5.4):
-  * Composite score = logistic on the standardized axes, target = MATERIAL disputes,
-    fit on the TRAIN split only (no leakage into the cutpoints or the test check).
+  * Composite score = gradient-boosted trees (HGBModel, the deployed scoring
+    model) on the axes, target = MATERIAL disputes, fit on the TRAIN split only
+    (no leakage into the cutpoints or the test check). Pass model=HandLogit()
+    etc. for the robustness panels.
+  * The 70/30 split is GROUPED: whole Kalshi series / Polymarket slug families
+    go to one side, so twin markets never straddle the train/test boundary.
   * Cutpoints from monotonic supervised binning of the score against the material
     label on TRAIN: fine pre-bins -> isotonic PAVA (enforce monotone risk) -> merge
     adjacent bins whose dispute rates are not statistically distinct (two-proportion
@@ -30,8 +34,9 @@ import numpy as np
 ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 sys.path.insert(0, str(ROOT / "paper" / "scripts"))
-from dispute_regression import market_units, logit_l2, LEARN_COLS  # noqa: E402
-from _dispute_data import graded_rows, is_genuine, is_confirmed  # noqa: E402
+from dispute_regression import HGBModel, market_units, LEARN_COLS  # noqa: E402
+from _dispute_data import (graded_rows, grouped_train_mask, is_genuine,  # noqa: E402
+                           is_confirmed)
 
 SEED = 42
 # Fixed top of the scale; the D-tier is anchored at the top of [DDD, DD, D] and
@@ -80,33 +85,52 @@ def _ptest(n1, p1, n2, p2):
     return 2 * (1 - 0.5 * (1 + math.erf(z / math.sqrt(2))))
 
 
-def _bins(s, t, K=50, alpha=0.05, maxshare=None):
-    """Monotonic supervised cutpoints on score s against binary label t."""
+def _bins(s, t, K=50, alpha=0.05, maxshare=None, groups=None):
+    """Monotonic supervised cutpoints on score s against binary label t.
+
+    groups: optional per-observation cluster labels (series/family). Bin dispute
+    RATES stay market-level (the estimand), but the merge z-tests use the number
+    of distinct clusters as the effective sample size — twin markets are close
+    to perfectly correlated (label-pure series, duplicated axis vectors), so
+    counting them as independent over-splits the ladder into grades that do not
+    replicate on a grouped test split."""
     qs = np.unique(np.quantile(s, np.linspace(0, 1, K + 1)))
     interior = qs[1:-1]
     bidx = np.searchsorted(interior, s, side="right")
     nb = int(bidx.max()) + 1
     n = np.zeros(nb); pos = np.zeros(nb); up = np.full(nb, -1e18)
-    for bi, ti, si in zip(bidx, t, s):
+    gsets = [set() for _ in range(nb)]
+    if groups is None:
+        groups = range(len(s))                      # each obs its own cluster
+    for bi, ti, si, gi in zip(bidx, t, s, groups):
         n[bi] += 1; pos[bi] += ti; up[bi] = max(up[bi], si)
-    keep = n > 0; n, pos, up = n[keep], pos[keep], up[keep]
-    blk = []  # [count, positives, start, end]
+        gsets[bi].add(gi)
+    keep = n > 0
+    n, pos, up = n[keep], pos[keep], up[keep]
+    gsets = [g for g, k in zip(gsets, keep) if k]
+
+    def eff(b):
+        """Effective (count, positives) of block b: clusters, not markets."""
+        ne = len(b[4])
+        return ne, b[1] / b[0] * ne
+
+    blk = []  # [count, positives, start, end, cluster-set]
     for i in range(len(n)):
-        blk.append([n[i], pos[i], i, i])
+        blk.append([n[i], pos[i], i, i, set(gsets[i])])
         while len(blk) >= 2 and blk[-2][1] / blk[-2][0] > blk[-1][1] / blk[-1][0]:
             a = blk.pop(); c = blk.pop()
-            blk.append([c[0] + a[0], c[1] + a[1], c[2], a[3]])
+            blk.append([c[0] + a[0], c[1] + a[1], c[2], a[3], c[4] | a[4]])
     while len(blk) > 2:
-        ps = [_ptest(blk[i][0], blk[i][1], blk[i + 1][0], blk[i + 1][1])
+        ps = [_ptest(*eff(blk[i]), *eff(blk[i + 1]))
               for i in range(len(blk) - 1)]
         j = int(np.argmax(ps))
         if ps[j] <= alpha:
             break
         a = blk.pop(j + 1); c = blk.pop(j)
-        blk.insert(j, [c[0] + a[0], c[1] + a[1], c[2], a[3]])
+        blk.insert(j, [c[0] + a[0], c[1] + a[1], c[2], a[3], c[4] | a[4]])
     if maxshare is not None:
         tot = n.sum(); out = []
-        for N, P, st, en in blk:
+        for N, P, st, en, _g in blk:
             if N <= maxshare * tot or en == st:
                 out.append((st, en)); continue
             parts = math.ceil(N / (maxshare * tot)); tgt = N / parts; cs, acc = st, 0
@@ -115,8 +139,8 @@ def _bins(s, t, K=50, alpha=0.05, maxshare=None):
                 if acc >= tgt and pi < en:
                     out.append((cs, pi)); cs = pi + 1; acc = 0
             out.append((cs, en))
-        blk = [[0, 0, st, en] for st, en in out]
-    return np.array([up[en] for *_, st, en in [(b[0], b[1], b[2], b[3]) for b in blk][:-1]])
+        blk = [[0, 0, st, en, set()] for st, en in out]
+    return np.array([up[b[3]] for b in blk[:-1]])
 
 
 def fit_grades(target="material", maxshare=None, seed=SEED, cols=None,
@@ -125,34 +149,31 @@ def fit_grades(target="material", maxshare=None, seed=SEED, cols=None,
     cols: predictor columns for the composite score (default = the 9 LEARN_COLS;
     pass LEARN_COLS + ['logvol'] for the volume-augmented model).
     model: an optional registry model (.fit/.score) used to build the composite
-    score instead of the default logistic; score: an optional precomputed
-    full-length score (e.g. the equal-weighted sum). With both None the behaviour
-    is the original logistic, so Table~5 is unchanged."""
+    score; score: an optional precomputed full-length score (e.g. the
+    equal-weighted sum). With both None the deployed gradient-boosted composite
+    (HGBModel) is used. The 70/30 split is grouped by series/family."""
     if cols is None:
         cols = LEARN_COLS
     rows, units, pop, disp, mat, conf = load()
     X = np.array([[u[c] for c in cols] for u in units], float)
     tgt = {"material": mat, "confirmed": conf, "all": disp}[target]
-    rng = np.random.default_rng(seed)
     insamp = np.where(pop | tgt)[0]                # representative population + oversampled positives
     y = tgt[insamp].astype(int)
-    trmask = np.zeros(len(insamp), bool)
-    for cls in (0, 1):
-        ix = np.where(y == cls)[0]; rng.shuffle(ix)
-        trmask[ix[:int(0.7 * len(ix))]] = True
+    # grouped split: whole series/families to one side (leakage-safe)
+    groups_in = [units[i]["group"] for i in insamp]
+    trmask = grouped_train_mask(groups_in, y, frac=0.7, seed=seed)
     train, test = insamp[trmask], insamp[~trmask]
     if score is not None:                          # precomputed score (e.g. equal sum)
         score = np.asarray(score, float)
-    elif model is not None:                        # any registry model, fit on the train split
+    else:                                          # registry model, fit on the train split
+        if model is None:
+            model = HGBModel()                     # deployed boosted composite (Table 5)
         mu, sd = X[train].mean(0), X[train].std(0); sd[sd == 0] = 1
-        model.fit((X[train] - mu) / sd, tgt[train].astype(float))
+        gtr = [units[i]["group"] for i in train]
+        model.fit((X[train] - mu) / sd, tgt[train].astype(float), groups=gtr)
         score = np.asarray(model.score((X - mu) / sd), float)
-    else:                                          # default: logistic composite (Table 5)
-        mu, sd = X[train].mean(0), X[train].std(0); sd[sd == 0] = 1
-        b = logit_l2(np.column_stack([np.ones(len(train)), (X[train] - mu) / sd]),
-                     tgt[train].astype(float))
-        score = np.column_stack([np.ones(len(X)), (X - mu) / sd]) @ b
-    cuts = _bins(score[train], tgt[train].astype(int), maxshare=maxshare)
+    cuts = _bins(score[train], tgt[train].astype(int), maxshare=maxshare,
+                 groups=[units[i]["group"] for i in train])
     G = len(cuts) + 1
     g = np.digitize(score, cuts)
     letters = grade_labels(G)

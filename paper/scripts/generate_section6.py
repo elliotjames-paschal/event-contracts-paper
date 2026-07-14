@@ -149,9 +149,10 @@ def volume_robustness_table(outfile="volume_robustness.tex",
     """Appendix companion to Table~\\ref{tab:grade_tiers}: the actual grade ladder ---
     each grade's share of markets, share of dollar volume, and total volume --- under
     each fitted scoring model, one stacked panel per model (Table 6-style ladder)."""
-    from dispute_regression import EBMClassifier, HandLogit, SkLogit
+    from dispute_regression import EBMClassifier, HandLogit, HGBModel, SkLogit
 
     specs = [
+        ("Gradient boosting (HGB, deployed)", dict(model=HGBModel())),
         ("Logistic", dict(model=HandLogit())),
         ("Lasso (L1)", dict(model=SkLogit(l1_ratio=1.0))),
         ("Ridge (L2)", dict(model=SkLogit(l1_ratio=0.0))),
@@ -203,10 +204,8 @@ def volume_robustness_table(outfile="volume_robustness.tex",
         r"\midrule", *body, r"\bottomrule", r"\end{tabular}",
         (r"\tabnote{Table~\ref{tab:grade_tiers} repeated under each fitted scoring model, "
          r"one panel per model: each grade's share of markets, share of dollar volume, and "
-         r"total volume in the representative sample (confirmed-trained grades). The whale "
-         r"effect --- dollar volume concentrating above the investment-grade line --- holds "
-         r"under the deployed (logistic) grade and the other fitted scores; ridge is the "
-         r"exception, its coarse ladder placing a high-volume tier below the line.}"),
+         r"total volume in the representative sample (confirmed-trained grades, grouped "
+         r"70/30 split). The first panel is the deployed gradient-boosted grade.}"),
         r"\end{table}", "",
     ]
     (TAB_DIR / outfile).write_text("\n".join(lines))
@@ -288,6 +287,7 @@ def auc_prediction_fig(outfile="dispute_auc.pdf", target="confirmed"):
         ("l1",       "Logistic (L1)",      "#79a8d0", "-",         "^", True,  1.4),
         ("l2",       "Logistic (L2)",      "#16467a", "-",         "v", True,  1.4),
         ("ebm",      "EBM",                "#4aa05e", "-",         "s", True,  1.9),
+        ("hgb",      "HGB (deployed)",     "#b3541e", "-",         "*", True,  2.1),
         ("xgb",      "XGBoost",            "#226b34", "-",         "D", True,  1.5),
         ("volume",   "$+$ volume (diag.)", "#b48ec9", (0, (5, 3)), "P", False, 1.6),
     ]
@@ -391,7 +391,7 @@ def interpretability_figs(ebm_out="ebm_shapes.pdf", xgb_out="xgb_shap.pdf"):
 
     # --- XGBoost SHAP summary as a layered-violin density (smooth per-axis
     #     distributions, colored by axis score) instead of individual dots ---
-    xg = XGBClassifierModel().fit(M, y).clf.best_estimator_
+    xg = XGBClassifierModel().fit(M, y, groups=[u["group"] for u in sample]).clf.best_estimator_
     sv = shap.TreeExplainer(xg).shap_values(M)
     with plt.rc_context({"font.family": "serif", "font.size": 9}):
         # Wide aspect (longer x-axis) + finer color binning so the score gradient

@@ -1,0 +1,217 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --paper: #f3efe6;
+    --card: #fffdf8;
+    --edge: #e2dac6;
+    --ink: #26221a;
+    --mut: #7d7566;
+    --blue: #2f5680;
+    --red: #a33327;
+    --green: #33691e;
+    --amber: #a06b00;
+    --rule: #e9e2d0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1640px;
+    background: var(--paper);
+    font-family: Georgia, 'Times New Roman', serif;
+    color: var(--ink);
+    padding: 44px 48px 30px;
+  }
+  h1 {
+    font-size: 34px; font-weight: 700; letter-spacing: -0.3px;
+    margin-bottom: 8px;
+  }
+  .subtitle {
+    font-size: 15.5px; color: var(--mut); margin-bottom: 30px;
+    font-style: italic;
+  }
+  .row { display: flex; align-items: stretch; gap: 0; }
+  .col { display: flex; flex-direction: column; gap: 18px; }
+  .col1 { width: 428px; }
+  .col2 { width: 452px; }
+  .col3 { width: 560px; }
+  .arrow {
+    display: flex; align-items: center; justify-content: center;
+    width: 62px; flex-shrink: 0; color: #a89f8c; font-size: 34px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--edge);
+    border-radius: 14px;
+    padding: 24px 26px;
+    box-shadow: 0 2px 10px rgba(80, 65, 35, 0.09), 0 1px 2px rgba(80, 65, 35, 0.06);
+    flex: 1;
+  }
+  .col1 .card { flex: 0 0 auto; }
+  .chip {
+    margin-top: auto;
+    background: #faf6ec;
+    border: 1px solid var(--edge);
+    border-radius: 14px;
+    padding: 18px 26px 20px;
+    box-shadow: 0 1px 4px rgba(80, 65, 35, 0.05);
+    flex: 0;
+  }
+  .step {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 12.5px; font-weight: 700; letter-spacing: 1.6px;
+    color: var(--blue); text-transform: uppercase; margin-bottom: 4px;
+  }
+  .step .n {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--blue); color: #fff; font-size: 12px;
+    margin-right: 9px; vertical-align: -5px; letter-spacing: 0;
+  }
+  .stepnote { font-size: 12.5px; color: var(--mut); margin-bottom: 16px;
+    font-family: 'Helvetica Neue', Helvetica, sans-serif; }
+  .q { font-size: 22px; font-weight: 700; line-height: 1.25; margin: 10px 0 6px; }
+  .meta { font-size: 13px; color: var(--mut); margin-bottom: 16px;
+    font-family: 'Helvetica Neue', Helvetica, sans-serif; }
+  .rules {
+    font-size: 14.5px; font-style: italic; line-height: 1.62; color: #43ob3d;
+    color: #453f33;
+    border-left: 3px solid var(--rule); padding-left: 14px;
+  }
+  .instr-label {
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+    font-size: 10.5px; font-weight: 600; letter-spacing: 1.2px;
+    color: var(--mut); text-transform: uppercase; margin-bottom: 8px;
+  }
+  .instr { font-size: 14px; font-style: italic; line-height: 1.5; }
+  .field { margin-bottom: 17px; }
+  .fname {
+    font-family: Menlo, 'SF Mono', monospace;
+    font-size: 12px; color: var(--mut); margin-bottom: 3px;
+  }
+  .fval { font-size: 15px; line-height: 1.42; }
+  .good { color: var(--green); }
+  .bad  { color: var(--red); }
+  .warn { color: var(--amber); }
+  .srow {
+    display: flex; align-items: center; gap: 12px;
+    padding: 6.5px 0;
+  }
+  .dots { display: flex; gap: 5px; width: 52px; flex-shrink: 0; }
+  .dot {
+    width: 12px; height: 12px; border-radius: 50%;
+    border: 1.6px solid; background: transparent;
+  }
+  .dot.on.bad  { background: var(--red); }
+  .dot.on.warn { background: var(--amber); }
+  .dot.good, .dot.bad, .dot.warn { border-color: currentColor; }
+  .score {
+    width: 16px; text-align: center; font-weight: 700; font-size: 16px;
+    flex-shrink: 0;
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+  }
+  .slabel { flex: 1; }
+  .slabel .qq { font-size: 15px; line-height: 1.15; }
+  .slabel .ax {
+    font-family: Menlo, 'SF Mono', monospace;
+    font-size: 10.5px; margin-top: 2px; color: #a39a89;
+  }
+  .slabel .ax.flag { color: inherit; opacity: 0.92; }
+  .verdict {
+    border-top: 1px solid var(--rule);
+    margin-top: 12px; padding-top: 14px;
+  }
+  .verdict .sum { font-size: 19px; font-weight: 700; color: var(--red); }
+  .verdict .fact { font-size: 13px; color: var(--mut); margin-top: 5px;
+    font-family: 'Helvetica Neue', Helvetica, sans-serif; }
+  .footer {
+    margin-top: 26px; font-size: 12.5px; color: var(--mut); line-height: 1.5;
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+    border-top: 1px solid #ddd5c1; padding-top: 12px;
+  }
+</style>
+</head>
+<body>
+  <h1>An AI analyst reads every contract — and shows its work</h1>
+  <div class="subtitle">The pipeline, shown on Polymarket&rsquo;s $242&thinsp;million suit market. Every quote and every score below is verbatim from the replication data.</div>
+
+  <div class="row">
+    <!-- STEP 1 -->
+    <div class="col col1">
+      <div class="card">
+        <div class="step"><span class="n">1</span>The contract</div>
+        <div class="q">&ldquo;Will Zelenskyy wear a suit before July?&rdquo;</div>
+        <div class="meta">Polymarket &middot; $242M traded &middot; May&ndash;June 2025</div>
+        <div class="rules">Resolves Yes if Zelenskyy is &ldquo;photographed or videotaped wearing a suit between May&nbsp;22 and June&nbsp;30, 2025 ET.&rdquo; &ldquo;The images or video must be authentic, not the result of artificial intelligence or video editing.&rdquo; &ldquo;The resolution source will be a consensus of credible reporting.&rdquo;</div>
+      </div>
+      <div class="chip">
+        <div class="instr-label">The AI&rsquo;s standing instructions (verbatim excerpt)</div>
+        <div class="instr">&ldquo;Be conservative. When the contract is ambiguous, flag the ambiguity &mdash; do not paper over it.&rdquo;</div>
+      </div>
+    </div>
+
+    <div class="arrow">&#10230;</div>
+
+    <!-- STEP 2 -->
+    <div class="col col2">
+      <div class="card">
+        <div class="step"><span class="n">2</span>Parsed into a structured spec</div>
+        <div class="stepnote">schema v0.5 &mdash; the contract&rsquo;s own language, arranged into machine-readable fields</div>
+        <div class="field">
+          <div class="fname">predicate</div>
+          <div class="fval bad">Zelenskyy wearing &ldquo;a suit&rdquo; &mdash; operative term undefined</div>
+        </div>
+        <div class="field">
+          <div class="fname">entities</div>
+          <div class="fval good">Volodymyr Zelenskyy &mdash; person, uniquely identified</div>
+        </div>
+        <div class="field">
+          <div class="fname">temporal_bounds</div>
+          <div class="fval good">2025&#8209;05&#8209;22 &rarr; 2025&#8209;06&#8209;30, timezone ET, stated in rules</div>
+        </div>
+        <div class="field">
+          <div class="fname">source_hierarchy</div>
+          <div class="fval bad">named organizations: <b>none</b>; &ldquo;a consensus of credible reporting&rdquo; is a methodology, not a source</div>
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <div class="fname">edge_cases</div>
+          <div class="fval"><span class="good">media authenticity: addressed</span><br><span class="bad">meaning of &ldquo;suit&rdquo;: unaddressed</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow">&#10230;</div>
+
+    <!-- STEP 3 -->
+    <div class="col col3">
+      <div class="card">
+        <div class="step"><span class="n">3</span>Ten risk scores</div>
+        <div class="stepnote">0 = no concern &middot; 3 = severe</div>
+
+        <div class="srow"><div class="dots"><div class="dot good"></div><div class="dot good"></div><div class="dot good"></div></div><div class="score good">0</div><div class="slabel"><div class="qq">Is the question precisely defined?</div><div class="ax">predicate_ambiguity</div></div></div>
+        <div class="srow"><div class="dots"><div class="dot good"></div><div class="dot good"></div><div class="dot good"></div></div><div class="score good">0</div><div class="slabel"><div class="qq">Are the entities identifiable?</div><div class="ax">entity_ambiguity</div></div></div>
+        <div class="srow"><div class="dots"><div class="dot good"></div><div class="dot good"></div><div class="dot good"></div></div><div class="score good">0</div><div class="slabel"><div class="qq">Is the time window pinned down?</div><div class="ax">temporal_precision</div></div></div>
+        <div class="srow"><div class="dots"><div class="dot on bad"></div><div class="dot on bad"></div><div class="dot bad"></div></div><div class="score bad">2</div><div class="slabel"><div class="qq">Cost for one actor to move it</div><div class="ax flag bad">manipulation_susceptibility &mdash; a feasible single-actor path exists</div></div></div>
+        <div class="srow"><div class="dots"><div class="dot on bad"></div><div class="dot on bad"></div><div class="dot bad"></div></div><div class="score bad">2</div><div class="slabel"><div class="qq">How concentrated is settlement?</div><div class="ax flag bad">outcome_concentration &mdash; turns on one person&rsquo;s discrete act</div></div></div>
+        <div class="srow"><div class="dots"><div class="dot on bad"></div><div class="dot on bad"></div><div class="dot bad"></div></div><div class="score bad">2</div><div class="slabel"><div class="qq">Is a settlement source identified?</div><div class="ax flag bad">source_specification &mdash; generic; no organization named</div></div></div>
+        <div class="srow"><div class="dots"><div class="dot on bad"></div><div class="dot on bad"></div><div class="dot bad"></div></div><div class="score bad">2</div><div class="slabel"><div class="qq">Is the source authoritative?</div><div class="ax flag bad">source_quality &mdash; no primary source; secondary only</div></div></div>
+        <div class="srow"><div class="dots"><div class="dot on warn"></div><div class="dot warn"></div><div class="dot warn"></div></div><div class="score warn">1</div><div class="slabel"><div class="qq">Are edge cases covered?</div><div class="ax flag warn">edge_case_coverage &mdash; authenticity yes; key scenario no</div></div></div>
+        <div class="srow"><div class="dots"><div class="dot good"></div><div class="dot good"></div><div class="dot good"></div></div><div class="score good">0</div><div class="slabel"><div class="qq">Does headline match the rules?</div><div class="ax">headline_rules_alignment</div></div></div>
+        <div class="srow"><div class="dots"><div class="dot on bad"></div><div class="dot on bad"></div><div class="dot on bad"></div></div><div class="score bad">3</div><div class="slabel"><div class="qq">Is a governing body engaged?</div><div class="ax flag bad">governing_body_engagement &mdash; none exists for the domain</div></div></div>
+
+        <div class="verdict">
+          <div class="sum">Risk grade: BB &mdash; below investment grade</div>
+          <div class="fact">The ten scores feed a gradient-boosted risk model trained on 9,800 markets; scored out-of-sample, this market lands in the riskiest tenth of Polymarket.</div>
+          <div class="fact">In fact: challenged 5&times; at the UMA oracle &mdash; the most of any market in the sample.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    All quoted text and all axis scores are verbatim from the replication data (market rules; grading prompt; stored grades);
+    the grade is the fitted risk tier of the dispute-prediction model validated in Figs.&nbsp;2&ndash;3 and&nbsp;6.
+  </div>
+</body>
+</html>

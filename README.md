@@ -16,7 +16,9 @@ data/                          Input datasets (read-only; never modified by scri
   disputed_audit_results.json    10-axis ratings of disputed markets
   fetched/uma_disputes_enriched.json  Polymarket UMA disputes
 scripts/
-  dispute_regression.py          Shared regression machinery (logit + L2, AUC)
+  dispute_regression.py          Shared prediction machinery (logistic, penalized
+                                 logits, EBM, gradient boosting; grouped CV — folds
+                                 never split a Kalshi series / Polymarket slug family)
 src/parser/
   schema.py                      Resolution Spec pydantic models (grade tiers)
 paper/

@@ -150,6 +150,74 @@ def series_of(ticker: str) -> str:
     return m.group(1) if m else (ticker or "").split("-")[0]
 
 
+# ── Grouping and leakage-safe splits ────────────────────────────────────────
+# Both platforms list recurring, near-identical contracts (Kalshi: ~5,700
+# markets in ~1,300 series, dispute flags applied at the series level;
+# Polymarket: recurring slug families like btc-updown-m). >90% of markets share
+# an identical 10-axis vector with a sibling, so any train/test split that
+# ignores this structure leaks: the model memorizes the twin instead of
+# predicting. Every split and CV fold must therefore be GROUP-aware.
+
+_PM_MONTHS = (r"(20\d\d|jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|january|"
+              r"february|march|april|june|july|august|september|october|"
+              r"november|december)")
+
+
+def pm_family(slug: str) -> str:
+    """Polymarket family id: the slug with digits and month names stripped, so
+    recurring listings (btc-updown-m-..., weekly temperature markets, ...)
+    share one id. Heuristic, but errs toward merging — the safe direction."""
+    s = re.sub(rf"\b{_PM_MONTHS}\b", "", slug or "")
+    s = re.sub(r"\d+", "", s)
+    return re.sub(r"-+", "-", s).strip("-")
+
+
+def group_of(row: dict) -> str:
+    """Leakage grouping unit for a graded row: Kalshi series / Polymarket
+    family, prefixed by platform so ids never collide across platforms."""
+    if row["platform"] == "kalshi":
+        return "k:" + series_of(row["id"])
+    return "p:" + pm_family(row["id"])
+
+
+def grouped_fold_assign(groups: list, y, k: int, rng) -> np.ndarray:
+    """Assign each group to one of k folds, greedily balancing positives (then
+    sizes) so every fold has both classes even though groups are label-pure.
+    rng: a random.Random (shuffles tie order between repeats)."""
+    from collections import Counter
+    gpos, gn = Counter(), Counter()
+    for g, yi in zip(groups, y):
+        gpos[g] += int(yi); gn[g] += 1
+    gs = list(gpos)
+    rng.shuffle(gs)
+    gs.sort(key=lambda g: -gpos[g])          # place dispute-heavy groups first
+    fpos = [0] * k; fn = [0] * k; assign = {}
+    for g in gs:
+        # balance positive groups on positive counts, label-pure clean groups
+        # on fold size (a lexicographic (fpos, fn) key would funnel every clean
+        # group into whichever fold is short one positive)
+        if gpos[g] > 0:
+            f = min(range(k), key=lambda i: (fpos[i], fn[i]))
+        else:
+            f = min(range(k), key=lambda i: (fn[i], fpos[i]))
+        assign[g] = f; fpos[f] += gpos[g]; fn[f] += gn[g]
+    return np.array([assign[g] for g in groups])
+
+
+def grouped_train_mask(groups: list, y, frac: float = 0.7, seed: int = 42) -> np.ndarray:
+    """Group-aware ~frac/1-frac split: whole groups go to train or test,
+    greedily balancing positives so both sides keep both classes. Replaces the
+    stratified market-level 70/30 split, which leaked twin markets across the
+    boundary."""
+    import random
+    # 10 balanced slots, frac*10 of them to train: keeps the split fraction
+    # while reusing the greedy positive balance.
+    slots = 10
+    fold = grouped_fold_assign(groups, y, slots, random.Random(seed))
+    n_train_slots = int(round(frac * slots))
+    return np.isin(fold, np.arange(n_train_slots))
+
+
 def units(platform: str, spec_only: bool = True) -> list[dict]:
     """Return market-level analysis units {spec_score, disputed} for a platform.
 
