@@ -44,7 +44,7 @@ with plt.rc_context({"font.family": "serif"}):
         ax.add_patch(FancyArrowPatch((x0, y), (x1, y), arrowstyle="-|>",
                                      mutation_scale=22, color="#8a8577", lw=1.6))
 
-    ax.text(0.25, 7.12, "An AI analyst reads every contract — and shows its work",
+    ax.text(0.25, 7.12, "The grading pipeline: contract text → structured spec → ten risk scores",
             fontsize=15, fontweight="bold", color=INK)
 
     # ── STEP 1: the contract ────────────────────────────────────────────────

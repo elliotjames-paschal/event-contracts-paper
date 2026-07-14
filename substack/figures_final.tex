@@ -23,7 +23,7 @@ market family.
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.86\textwidth]{fig1_contract.png}
-\caption{\textbf{The hook.} The actual rules of Polymarket's \$240M
+\caption{\textbf{The suit market's rules, annotated.} The actual rules of Polymarket's \$240M
 Zelenskyy-suit market: precise about the wrong things (dates, deepfakes),
 silent on the word the market was named after and on who decides. From the
 text alone it grades BB --- below investment grade; scored out-of-sample (by a
@@ -35,8 +35,7 @@ market in the data.}
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.9\textwidth]{fig2b_realworld.png}
-\caption{\textbf{The model works in the real world --- no weighting, no
-asterisk.} All 5{,}567 markets in the representative random sample (both
+\caption{\textbf{Real-world dispute rates by predicted-risk quintile.} All 5{,}567 markets in the representative random sample (both
 platforms), ranked by the model's predicted risk from contract text alone and
 split into quintiles; the y-axis is the raw share that actually ended in a
 dispute (95\% binomial CIs). The riskiest fifth disputes at $\sim$6$\times$
@@ -49,7 +48,7 @@ markets (out-of-sample AUC 0.78).}
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.68\textwidth]{fig2c_probability.png}
-\caption{\textbf{And its probabilities are honest.} The same out-of-sample
+\caption{\textbf{Calibration of the corrected predicted probabilities.} The same out-of-sample
 scores converted to real-world probabilities (per-platform base-rate
 correction), binned, against the share of markets that actually disputed;
 the dashed line is perfect calibration. When the model says $\sim$4\%, about
@@ -60,7 +59,7 @@ doesn't just rank markets correctly --- its numbers mean what they say.}
 \begin{figure}[h!]
 \centering
 \includegraphics[width=\textwidth]{fig_pipeline_styled.png}
-\caption{\textbf{How the AI reads a contract.} The pipeline on the suit market
+\caption{\textbf{The grading pipeline, applied to one contract.} The pipeline on the suit market
 itself. Provenance: the rules text and standing instructions are verbatim
 quotes (from the market's oracle record and the actual grading prompt); the
 ten axis scores and their schema names are the stored values in the
@@ -78,7 +77,7 @@ market below investment grade from the text alone.}
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.98\textwidth]{fig3_flaws.png}
-\caption{\textbf{Which flaws carry the signal.} Polymarket markets (organic
+\caption{\textbf{Dispute rates with vs.\ without each contract flaw.} Polymarket markets (organic
 disputes; $n=3{,}643$ with 877 genuine specification disputes,
 dispute-enriched sample --- levels are not real-world rates, the comparisons
 within each row are the point). Dispute rate without $\to$ with each flaw:
@@ -92,7 +91,7 @@ exchange flags behave differently and are analyzed separately in the paper.)}
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.82\textwidth]{fig4_grades.png}
-\caption{\textbf{The letter grades.} Both platforms, confirmed (demonstrable)
+\caption{\textbf{Relative dispute risk by grade.} Both platforms, confirmed (demonstrable)
 blow-ups, on held-out markets; each grade's risk relative to grade A:
 $1\times$, $1.2\times$, $5\times$, $23\times$, $26\times$. A and BBB are
 indistinguishable; below the investment-grade line, risk jumps an order of

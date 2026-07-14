@@ -82,7 +82,7 @@ with plt.rc_context({"font.family":"serif","font.size":11}):
     ax.set_xlim(0, lim); ax.set_ylim(0, lim)
     ax.set_aspect("equal")
     ax.spines[["top","right"]].set_visible(False)
-    ax.set_title("Predicted vs. actual dispute rates\n(representative sample, base-rate corrected)",
+    ax.set_title("Predicted vs. observed dispute rates\n(representative sample, base-rate corrected)",
                  fontsize=12, pad=10)
     fig.tight_layout()
     fig.savefig("/Users/andrewhall/event_contracts/substack/figs/fig2c_probability.png", dpi=150)

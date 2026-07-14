@@ -90,7 +90,7 @@ with plt.rc_context({"font.family":"serif","font.size":11}):
     ax.tick_params(length=0)
     for xi, v in zip(x, rates):
         ax.text(xi+0.09, v+0.12, f"{v:.1f}%", fontsize=10, fontweight="bold", color="#333")
-    ax.set_title("In a representative sample, the model's risk ranking holds up",
+    ax.set_title("Share of markets ending in a dispute, by predicted-risk quintile",
                  fontsize=12.5, pad=12)
     fig.tight_layout()
     fig.savefig("/Users/andrewhall/event_contracts/substack/figs/fig2b_realworld.png", dpi=150)

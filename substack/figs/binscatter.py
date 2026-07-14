@@ -52,7 +52,7 @@ with plt.rc_context({"font.family":"serif","font.size":11}):
     xs, ys = binscatter(ax, s, y)
     ax.axhline(100*y.mean(), color="#999", lw=0.8, ls=(0,(4,3)))
     ax.text(1, 100*y.mean()+1.2, "average", fontsize=8.5, color="#777")
-    ax.set_title("Markets the model scores as risky are the ones that blow up",
+    ax.set_title("Dispute share by predicted-risk bin (Polymarket, out-of-sample)",
                  fontsize=12, pad=12)
     fig.tight_layout()
     fig.savefig("/Users/andrewhall/event_contracts/substack/figs/fig2_binscatter.png", dpi=150)

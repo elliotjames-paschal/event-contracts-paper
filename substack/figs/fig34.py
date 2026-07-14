@@ -57,7 +57,7 @@ with plt.rc_context({"font.family": "serif", "font.size": 11}):
                label="with the flaw (red = predicts disputes)")],
         frameon=False, fontsize=9.5, loc="lower center", ncol=2,
         bbox_to_anchor=(0.56, -0.04))
-    ax.set_title("Which contract flaws actually forecast trouble", fontsize=13, pad=10)
+    ax.set_title("Dispute rate with vs. without each contract flaw (Polymarket)", fontsize=13, pad=10)
     fig.tight_layout(rect=(0, 0.05, 1, 1))
     fig.savefig(OUT / "fig3_flaws.png", dpi=150, bbox_inches="tight")
 
@@ -82,7 +82,7 @@ with plt.rc_context({"font.family": "serif", "font.size": 11}):
             color="#b3392f", va="top")
     ax.spines[["top", "right"]].set_visible(False)
     ax.tick_params(length=0)
-    ax.set_title("A market's letter grade tells you its blow-up risk", fontsize=13, pad=10)
+    ax.set_title("Confirmed-dispute risk by grade, relative to grade A (held-out markets)", fontsize=12.5, pad=10)
     fig.tight_layout()
     fig.savefig(OUT / "fig4_grades.png", dpi=150)
 print("test rates %:", [f"{100*r:.1f}" for r in te_r], "| letters:", letters, "| relative:", [f"{r:.1f}" for r in rel])
