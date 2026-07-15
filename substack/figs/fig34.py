@@ -87,30 +87,35 @@ with plt.rc_context({"font.family": "serif", "font.size": 11}):
     add_footer(fig, credit="Data: Polymarket (Hall & Paschal)")
     fig.savefig(OUT / "fig3_flaws.png", dpi=150, bbox_inches="tight", facecolor="white")
 
-# ── Fig 4: the letter grades, relative blow-up risk (held-out) ─────────────
-f = fit_grades(target="confirmed")
-g, G, tgt = f["g"], f["G"], f["tgt"]
-te_r = _rates(g, tgt, f["test"], G)
+# ── Fig 4: material-dispute risk by deployed grade (held-out) ──────────────
+f = fit_grades(target="confirmed")           # the deployed grade ladder
+g, G, mat, disp = f["g"], f["G"], f["mat"], f["disp"]
 letters = f["letters"]; nig = f["not_ig_from"]
-rel = [r / te_r[0] for r in te_r]
+train = set(f["train"])
+notrain = np.array([i not in train for i in range(len(g))])
+ev = notrain & (~disp | mat)                 # clean controls + material positives,
+                                             # none used to fit score or cuts
+rates = np.array([mat[ev & (g == k)].mean() for k in range(G)])
+rel = rates / rates[0]
 with plt.rc_context({"font.family": "serif", "font.size": 11}):
     fig, ax = plt.subplots(figsize=(7, 4.2))
     x = np.arange(G)
     colors = ["#c9d6e3" if k < nig else "#b3392f" for k in range(G)]
     ax.bar(x, rel, color=colors, width=0.66, zorder=2)
     for xi, v in zip(x, rel):
-        ax.text(xi, v + 0.7, f"{v:.0f}×", ha="center", fontsize=12, fontweight="bold",
+        ax.text(xi, v + 0.09, f"{v:.1f}×", ha="center", fontsize=12, fontweight="bold",
                 color="#333")
     ax.set_xticks(x); ax.set_xticklabels(letters, fontsize=13)
-    ax.set_ylabel("Blow-up risk, relative to grade A\n(held-out markets)", fontsize=10)
+    ax.set_ylabel("Material-dispute risk, relative to grade A\n(held-out markets)", fontsize=10)
     ax.axvline(nig - 0.5, color="#555", lw=0.8, ls=(0, (4, 3)))
     ax.text(nig - 0.42, max(rel)*0.97, "below\ninvestment grade", fontsize=9,
             color="#b3392f", va="top")
     ax.spines[["top", "right"]].set_visible(False)
     ax.tick_params(length=0)
-    ax.set_title("Confirmed-dispute risk by grade, relative to grade A (held-out markets)", fontsize=12.5, pad=10)
+    ax.set_title("Material-dispute risk by grade, relative to grade A (held-out markets)",
+                 fontsize=12, pad=10)
     from fs_style import add_footer
     fig.tight_layout(rect=(0, 0.10, 1, 1))
     add_footer(fig)
     fig.savefig(OUT / "fig4_grades.png", dpi=150, bbox_inches="tight", facecolor="white")
-print("test rates %:", [f"{100*r:.1f}" for r in te_r], "| letters:", letters, "| relative:", [f"{r:.1f}" for r in rel])
+print("fig4 rates%:", [f"{100*r:.1f}" for r in rates], "| rel:", [f"{r:.1f}" for r in rel])
