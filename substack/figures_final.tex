@@ -77,15 +77,19 @@ market below investment grade from the text alone.}
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.98\textwidth]{fig3_flaws.png}
-\caption{\textbf{Dispute rates with vs.\ without each contract flaw.} Polymarket markets (organic
-disputes; $n=3{,}643$ with 877 genuine specification disputes,
-dispute-enriched sample --- levels are not real-world rates, the comparisons
-within each row are the point). Dispute rate without $\to$ with each flaw:
-undefined key terms, headline/fine-print mismatch, and unnamed or weak
-settlement sources forecast trouble. In gray, the two that don't: edge-case
-coverage, and manipulability, which \emph{reverses} --- markets one actor
-could sway tend to resolve unambiguously and are disputed less. (Kalshi's
-exchange flags behave differently and are analyzed separately in the paper.)}
+\caption{\textbf{Dispute odds by contract dimension, jointly estimated.} One
+logistic regression of the dispute indicator on all ten 0--3 severity scores
+at once; Polymarket organic specification disputes vs.\ clean markets
+($n=3{,}643$; 877 disputes). Points: odds ratio per one severity point;
+whiskers: 95\% CIs clustered by market family. Odds ratios are invariant to
+the dispute oversampling, so no level caveat is needed. Vaguely defined core
+questions, ambiguous entities, and unidentified settlement sources raise
+dispute odds, holding the other dimensions fixed; manipulability and
+imprecise time windows lower them (manipulable markets tend to resolve
+unambiguously); the remaining dimensions are indistinguishable from no
+effect. The two structural scores are nearly collinear ($r=0.98$) and should
+be read as a pair. (Kalshi's exchange flags behave differently and are
+analyzed separately in the paper.)}
 \end{figure}
 
 \begin{figure}[h!]
