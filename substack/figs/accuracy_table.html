@@ -113,7 +113,10 @@
       platforms. Severity nests: all disputes (1,294 test positives) &supset; material (215)
       &supset; confirmed blow-ups (44). <span class="star">*</span>&nbsp;better than the
       equal-score sum at 95% confidence (paired cluster bootstrap, 2,000 resamples).
-      Full confidence intervals in the paper.
+      The deployed model is selected by repeated cross-validation, where gradient
+      boosting matches or beats EBM on every setup (e.g. 0.78 vs 0.76 on the
+      grade-training target, 8 of 8 splits) &mdash; EBM's one-cell edge here is
+      single-split noise on 44 positives. Full confidence intervals in the paper.
     </div>
   </div>
 
