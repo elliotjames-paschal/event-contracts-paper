@@ -80,7 +80,8 @@ with plt.rc_context({"font.family":"serif","font.size":11}):
                 fmt="o", ms=9, color="#33618f", ecolor="#33618f", elinewidth=1.2,
                 capsize=4, zorder=3)
     ax.axhline(100*y.mean(), color="#999", lw=0.8, ls=(0,(4,3)))
-    ax.text(-0.35, 100*y.mean()+0.07, "average market (1.2%)", fontsize=9, color="#777")
+    ax.text(-0.05, 100*y.mean()+0.09, "average market (1.2%)", fontsize=9,
+            color="#777", ha="left")
     ax.set_xticks(x)
     ax.set_xticklabels(["safest\n20%", "", "middle\n20%", "", "riskiest\n20%"], fontsize=10)
     ax.set_xlabel("Markets ranked by the model's predicted risk (contract text only)", fontsize=10)
@@ -92,6 +93,9 @@ with plt.rc_context({"font.family":"serif","font.size":11}):
         ax.text(xi+0.09, v+0.12, f"{v:.1f}%", fontsize=10, fontweight="bold", color="#333")
     ax.set_title("Share of markets ending in a dispute, by predicted-risk quintile",
                  fontsize=12.5, pad=12)
-    fig.tight_layout()
-    fig.savefig("/Users/andrewhall/event_contracts/substack/figs/fig2b_realworld.png", dpi=150)
+    from fs_style import add_footer
+    fig.tight_layout(rect=(0, 0.10, 1, 1))
+    add_footer(fig)
+    fig.savefig("/Users/andrewhall/event_contracts/substack/figs/fig2b_realworld.png", dpi=150,
+                bbox_inches="tight", facecolor="white")
 print("wrote fig2b_realworld.png")

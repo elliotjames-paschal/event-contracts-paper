@@ -42,7 +42,9 @@ with plt.rc_context({"font.family": "serif"}):
     ax.text(4.75, 1.25, "disputed 5 times — most in our data", fontsize=11,
             fontweight="bold", color=RED)
 
-    fig.tight_layout()
+    from fs_style import add_footer
+    fig.tight_layout(rect=(0, 0.10, 1, 1))
+    add_footer(fig)
     fig.savefig("/Users/andrewhall/event_contracts/substack/figs/fig1_contract.png",
-                dpi=150, bbox_inches="tight")
+                dpi=150, bbox_inches="tight", facecolor="white")
 print("wrote fig1_contract.png")

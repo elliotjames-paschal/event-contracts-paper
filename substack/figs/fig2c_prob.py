@@ -84,6 +84,9 @@ with plt.rc_context({"font.family":"serif","font.size":11}):
     ax.spines[["top","right"]].set_visible(False)
     ax.set_title("Predicted vs. observed dispute rates\n(representative sample, base-rate corrected)",
                  fontsize=12, pad=10)
-    fig.tight_layout()
-    fig.savefig("/Users/andrewhall/event_contracts/substack/figs/fig2c_probability.png", dpi=150)
+    from fs_style import add_footer
+    fig.tight_layout(rect=(0, 0.11, 1, 1))
+    add_footer(fig)
+    fig.savefig("/Users/andrewhall/event_contracts/substack/figs/fig2c_probability.png", dpi=150,
+                bbox_inches="tight", facecolor="white")
 print("wrote fig2c_probability.png")

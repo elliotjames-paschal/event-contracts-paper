@@ -130,6 +130,16 @@
     font-family: 'Helvetica Neue', Helvetica, sans-serif;
     border-top: 1px solid #ddd5c1; padding-top: 12px;
   }
+  .brand {
+    margin-top: 14px; display: flex; align-items: center;
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+  }
+  .brand img { height: 44px; }
+  .brand .link {
+    flex: 1; text-align: center; font-size: 16px; font-weight: 600;
+    color: var(--ink); letter-spacing: 0.2px;
+  }
+  .brand .credit { font-size: 13px; font-weight: 600; color: var(--ink); }
 </style>
 </head>
 <body>
@@ -212,6 +222,11 @@
   <div class="footer">
     All quoted text and all axis scores are verbatim from the replication data (market rules; grading prompt; stored grades);
     the grade is the fitted risk tier of the dispute-prediction model validated in Figs.&nbsp;2&ndash;3 and&nbsp;6.
+  </div>
+  <div class="brand">
+    <img src="fs_logo.png" alt="Free Systems">
+    <div class="link">freesystems.substack.com</div>
+    <div class="credit">Data: Polymarket &amp; Kalshi market rules (Hall &amp; Paschal)</div>
   </div>
 </body>
 </html>

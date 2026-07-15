@@ -56,10 +56,12 @@ with plt.rc_context({"font.family": "serif", "font.size": 11}):
         Line2D([0], [0], marker="o", color="white", markerfacecolor=RED, markersize=8,
                label="with the flaw (red = predicts disputes)")],
         frameon=False, fontsize=9.5, loc="lower center", ncol=2,
-        bbox_to_anchor=(0.56, -0.04))
+        bbox_to_anchor=(0.56, 0.085))
     ax.set_title("Dispute rate with vs. without each contract flaw (Polymarket)", fontsize=13, pad=10)
-    fig.tight_layout(rect=(0, 0.05, 1, 1))
-    fig.savefig(OUT / "fig3_flaws.png", dpi=150, bbox_inches="tight")
+    from fs_style import add_footer
+    fig.tight_layout(rect=(0, 0.15, 1, 1))
+    add_footer(fig)
+    fig.savefig(OUT / "fig3_flaws.png", dpi=150, bbox_inches="tight", facecolor="white")
 
 # ── Fig 4: the letter grades, relative blow-up risk (held-out) ─────────────
 f = fit_grades(target="confirmed")
@@ -83,6 +85,8 @@ with plt.rc_context({"font.family": "serif", "font.size": 11}):
     ax.spines[["top", "right"]].set_visible(False)
     ax.tick_params(length=0)
     ax.set_title("Confirmed-dispute risk by grade, relative to grade A (held-out markets)", fontsize=12.5, pad=10)
-    fig.tight_layout()
-    fig.savefig(OUT / "fig4_grades.png", dpi=150)
+    from fs_style import add_footer
+    fig.tight_layout(rect=(0, 0.10, 1, 1))
+    add_footer(fig)
+    fig.savefig(OUT / "fig4_grades.png", dpi=150, bbox_inches="tight", facecolor="white")
 print("test rates %:", [f"{100*r:.1f}" for r in te_r], "| letters:", letters, "| relative:", [f"{r:.1f}" for r in rel])
