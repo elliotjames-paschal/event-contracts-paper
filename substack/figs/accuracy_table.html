@@ -83,40 +83,39 @@
         </tr>
         <tr>
           <td class="method">Adding the ten scores equally</td>
-          <td>0.53</td><td>0.57</td><td>0.69</td>
+          <td>0.63</td><td>0.62</td><td>0.74</td>
         </tr>
         <tr>
           <td class="method">Logistic regression</td>
-          <td>0.63<span class="star">*</span></td><td>0.64</td><td>0.74</td>
+          <td>0.66</td><td>0.68</td><td>0.75</td>
         </tr>
         <tr>
-          <td class="method">Penalized logistic (lasso / ridge)</td>
-          <td>0.62<span class="star">*</span></td><td>0.63</td><td>0.76</td>
-        </tr>
-        <tr>
-          <td class="method">Gradient-boosted trees (XGBoost)</td>
-          <td>0.64</td><td>0.69<span class="star">*</span></td><td>0.83<span class="star">*</span></td>
-        </tr>
-        <tr class="hl">
-          <td class="method">Gradient-boosted trees<span class="tag">deployed</span></td>
-          <td>0.65<span class="star">*</span></td><td>0.69<span class="star">*</span></td><td>0.83<span class="star">*</span></td>
+          <td class="method">Penalized logistic (ridge, CV-tuned)</td>
+          <td>0.66</td><td>0.68</td><td>0.76</td>
         </tr>
         <tr>
           <td class="method">Explainable boosting machine (EBM)</td>
-          <td>0.66<span class="star">*</span></td><td>0.71<span class="star">*</span></td><td class="best">0.85<span class="star">*</span></td>
+          <td>0.73</td><td>0.70</td><td>0.76</td>
+        </tr>
+        <tr>
+          <td class="method">Gradient-boosted trees (XGBoost)</td>
+          <td class="best">0.74</td><td class="best">0.71</td><td class="best">0.78</td>
+        </tr>
+        <tr class="hl">
+          <td class="method">Gradient-boosted trees<span class="tag">deployed</span></td>
+          <td class="best">0.74</td><td>0.70</td><td class="best">0.78</td>
         </tr>
       </tbody>
     </table>
     <div class="note">
-      Held-out 30% of markets, grouped so no method ever sees a sibling of a test market
-      (whole Kalshi series / Polymarket market families held out together); pooled across
-      platforms. Severity nests: all disputes (1,294 test positives) &supset; material (215)
-      &supset; confirmed blow-ups (44). <span class="star">*</span>&nbsp;better than the
-      equal-score sum at 95% confidence (paired cluster bootstrap, 2,000 resamples).
-      The deployed model is selected by repeated cross-validation, where gradient
-      boosting matches or beats EBM on every setup (e.g. 0.78 vs 0.76 on the
-      grade-training target, 8 of 8 splits) &mdash; EBM's one-cell edge here is
-      single-split noise on 44 positives. Full confidence intervals in the paper.
+      Every cell is the mean out-of-sample AUC over 8 repeated grouped 5-fold
+      cross-validations with identical folds for every method &mdash; whole Kalshi series
+      and Polymarket market families are never split across folds; pooled platforms.
+      Each column's sample: random clean markets plus that tier's disputed markets
+      (positives: 4,316 all / 784 material / 282 confirmed). Equal sum is fit-free;
+      the ridge penalty is tuned by grouped inner CV; XGBoost uses the same fixed
+      shallow configuration as the deployed scikit-learn model. Repeat-to-repeat
+      standard deviations are at most 0.011.
     </div>
   </div>
 
