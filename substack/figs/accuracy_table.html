@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --paper: #f3efe6; --card: #fffdf8; --edge: #e2dac6; --ink: #26221a;
+    --mut: #7d7566; --blue: #2f5680; --red: #a33327; --green: #33691e;
+    --rule: #e9e2d0; --hl: #eef3ea;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px; background: var(--paper);
+    font-family: Georgia, 'Times New Roman', serif; color: var(--ink);
+    padding: 40px 44px 26px;
+  }
+  h1 { font-size: 27px; font-weight: 700; letter-spacing: -0.2px; margin-bottom: 7px; }
+  .subtitle { font-size: 14.5px; color: var(--mut); margin-bottom: 24px; font-style: italic; }
+  .card {
+    background: var(--card); border: 1px solid var(--edge); border-radius: 14px;
+    padding: 10px 28px 20px;
+    box-shadow: 0 2px 10px rgba(80,65,35,0.09), 0 1px 2px rgba(80,65,35,0.06);
+  }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { padding: 12px 10px; text-align: center; }
+  td.method, th.method { text-align: left; }
+  thead .group th {
+    font-family: 'Helvetica Neue', Helvetica, sans-serif; font-size: 11.5px;
+    font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase;
+    color: var(--blue); border-bottom: none; padding-bottom: 2px;
+  }
+  thead .cols th {
+    font-family: 'Helvetica Neue', Helvetica, sans-serif; font-size: 12.5px;
+    font-weight: 600; color: var(--mut); border-bottom: 2px solid var(--edge);
+    padding-top: 2px;
+  }
+  tbody td { border-bottom: 1px solid var(--rule); font-size: 17px; }
+  tbody tr:last-child td { border-bottom: none; }
+  td.method { font-size: 15.5px; }
+  td.method .tag {
+    font-family: 'Helvetica Neue', Helvetica, sans-serif; font-size: 10.5px;
+    font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    color: #fff; background: var(--green); border-radius: 9px;
+    padding: 2px 8px; margin-left: 9px; vertical-align: 2px;
+  }
+  tr.chance td { color: #9a9385; font-style: italic; font-size: 15px; }
+  tr.hl td { background: var(--hl); font-weight: 700; }
+  tr.hl td.method { font-weight: 700; }
+  td.best { font-weight: 700; }
+  .star { color: var(--green); font-weight: 700; }
+  .note {
+    margin-top: 16px; font-size: 12px; color: var(--mut); line-height: 1.55;
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+  }
+  .brand {
+    margin-top: 18px; display: flex; align-items: center;
+    border-top: 1px solid #ddd5c1; padding-top: 12px;
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+  }
+  .brand img { height: 42px; }
+  .brand .link { flex: 1; text-align: center; font-size: 15.5px; font-weight: 600; color: var(--ink); }
+  .brand .credit { font-size: 12.5px; font-weight: 600; color: var(--ink); }
+</style>
+</head>
+<body>
+  <h1>Out-of-sample accuracy of each scoring method</h1>
+  <div class="subtitle">AUC: the probability the method ranks a future disputed market above a clean one. 0.50 is a coin flip; 1.00 is perfect.</div>
+
+  <div class="card">
+    <table>
+      <thead>
+        <tr class="group"><th class="method"></th><th colspan="3">AUC at predicting&hellip;</th></tr>
+        <tr class="cols">
+          <th class="method">Scoring method</th>
+          <th>all disputes</th>
+          <th>material disputes</th>
+          <th>confirmed blow-ups</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="chance">
+          <td class="method">Coin flip</td><td>0.50</td><td>0.50</td><td>0.50</td>
+        </tr>
+        <tr>
+          <td class="method">Adding the ten scores equally</td>
+          <td>0.53</td><td>0.57</td><td>0.69</td>
+        </tr>
+        <tr>
+          <td class="method">Logistic regression</td>
+          <td>0.63<span class="star">*</span></td><td>0.64</td><td>0.74</td>
+        </tr>
+        <tr>
+          <td class="method">Penalized logistic (lasso / ridge)</td>
+          <td>0.62<span class="star">*</span></td><td>0.63</td><td>0.76</td>
+        </tr>
+        <tr>
+          <td class="method">Gradient-boosted trees (XGBoost)</td>
+          <td>0.64</td><td>0.69<span class="star">*</span></td><td>0.83<span class="star">*</span></td>
+        </tr>
+        <tr class="hl">
+          <td class="method">Gradient-boosted trees<span class="tag">deployed</span></td>
+          <td>0.65<span class="star">*</span></td><td>0.69<span class="star">*</span></td><td>0.83<span class="star">*</span></td>
+        </tr>
+        <tr>
+          <td class="method">Explainable boosting machine (EBM)</td>
+          <td>0.66<span class="star">*</span></td><td>0.71<span class="star">*</span></td><td class="best">0.85<span class="star">*</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note">
+      Held-out 30% of markets, grouped so no method ever sees a sibling of a test market
+      (whole Kalshi series / Polymarket market families held out together); pooled across
+      platforms. Severity nests: all disputes (1,294 test positives) &supset; material (215)
+      &supset; confirmed blow-ups (44). <span class="star">*</span>&nbsp;better than the
+      equal-score sum at 95% confidence (paired cluster bootstrap, 2,000 resamples).
+      Full confidence intervals in the paper.
+    </div>
+  </div>
+
+  <div class="brand">
+    <img src="fs_logo.png" alt="Free Systems">
+    <div class="link">freesystems.substack.com</div>
+    <div class="credit">Data: Polymarket &amp; Kalshi market rules (Hall &amp; Paschal)</div>
+  </div>
+</body>
+</html>
