@@ -54,7 +54,13 @@ with plt.rc_context({"font.family":"serif","font.size":11}):
     ax.text(1, 100*y.mean()+1.2, "average", fontsize=8.5, color="#777")
     ax.set_title("Dispute share by predicted-risk bin (Polymarket, out-of-sample)",
                  fontsize=12, pad=12)
-    fig.tight_layout()
-    fig.savefig("/Users/andrewhall/event_contracts/substack/figs/fig2_binscatter.png", dpi=150)
+    from fs_style import add_footer
+    fig.tight_layout(rect=(0, 0.14, 1, 1))
+    fig.text(0.5, 0.115, "Dispute-enriched evaluation sample (disputes oversampled ~75×): "
+             "levels are not real-world rates; the gradient is the point.",
+             ha="center", fontsize=8, color="#666666")
+    add_footer(fig, credit="Data: Polymarket (Hall & Paschal)")
+    fig.savefig("/Users/andrewhall/event_contracts/substack/figs/fig2_binscatter.png", dpi=150,
+                bbox_inches="tight", facecolor="white")
 print("bins (x%, dispute%):", [f"{x:.0f}:{v:.0f}" for x,v in zip(xs,ys)])
 print("n =", len(pm_spec), "positives =", int(y.sum()))
